@@ -3772,3 +3772,216 @@ select.form-control {
     font-size: 10px;
   }
 }
+
+/* ============================================
+   SIGNATURE CONFIRMATION - Financial Records
+   ============================================ */
+.signature-section {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.btn-sign {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #5b5f97;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-sign:hover {
+  background: #4a4e7d;
+}
+
+.btn-sign svg {
+  width: 14px;
+  height: 14px;
+}
+
+.signed-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #dcfce7;
+  color: #16a34a;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.signed-status svg {
+  width: 14px;
+  height: 14px;
+}
+
+.signed-status .signed-date {
+  color: #888;
+  font-weight: 400;
+  margin-left: 5px;
+}
+
+/* Signature Modal */
+.signature-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.signature-modal.active {
+  display: flex;
+}
+
+.signature-modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 25px;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.signature-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.signature-modal-header h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.signature-modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f0f0f0;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.signature-modal-close:hover {
+  background: #e0e0e0;
+}
+
+.signature-modal-body {
+  margin-bottom: 20px;
+}
+
+.signature-info {
+  background: #f8f9fc;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.signature-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.signature-info-row:last-child {
+  border-bottom: none;
+}
+
+.signature-info-label {
+  color: #888;
+  font-size: 13px;
+}
+
+.signature-info-value {
+  font-weight: 600;
+  color: #333;
+  font-size: 13px;
+}
+
+.signature-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.signature-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: #5b5f97;
+}
+
+.signature-checkbox label {
+  font-size: 13px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.signature-modal-footer {
+  display: flex;
+  gap: 10px;
+}
+
+.signature-modal-footer .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+.btn-confirm-sign {
+  background: #22c55e;
+  color: #fff;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-confirm-sign:hover {
+  background: #16a34a;
+}
+
+.btn-confirm-sign:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-cancel-sign {
+  background: #f0f0f0;
+  color: #666;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-sign:hover {
+  background: #e0e0e0;
+}

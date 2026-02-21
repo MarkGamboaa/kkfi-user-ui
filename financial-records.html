@@ -43,7 +43,7 @@
       <!-- Transaction History -->
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">Transaction History</h3>
+          <h3 class="card-title">Disbursement History</h3>
           <div class="filter-tabs">
             <button class="filter-tab active">All</button>
             <button class="filter-tab">2026</button>
@@ -56,7 +56,7 @@
           <div class="year-section">
             <h4 class="year-heading">2026</h4>
             
-            <div class="transaction-item">
+            <div class="transaction-item" data-transaction-id="1">
               <div class="transaction-icon disbursement">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -72,6 +72,15 @@
                   <span class="transaction-type">1st Semester AY 2025-2026</span>
                 </div>
                 <span class="status-badge active">Completed</span>
+                <!-- Signature Section - Pending -->
+                <div class="signature-section">
+                  <button class="btn-sign" onclick="openSignatureModal(this)" data-amount="₱1,500" data-date="February 15, 2026" data-type="Tuition Disbursement">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                    Sign to Confirm Receipt
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -80,7 +89,7 @@
           <div class="year-section">
             <h4 class="year-heading">2025</h4>
             
-            <div class="transaction-item">
+            <div class="transaction-item" data-transaction-id="2">
               <div class="transaction-icon disbursement">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -96,10 +105,20 @@
                   <span class="transaction-type">2nd Semester AY 2024-2025</span>
                 </div>
                 <span class="status-badge active">Completed</span>
+                <!-- Signature Section - Already Signed -->
+                <div class="signature-section">
+                  <div class="signed-status">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Signed & Confirmed
+                    <span class="signed-date">• Aug 21, 2025</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item" data-transaction-id="3">
               <div class="transaction-icon disbursement">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -115,10 +134,20 @@
                   <span class="transaction-type">1st Semester AY 2024-2025</span>
                 </div>
                 <span class="status-badge active">Completed</span>
+                <!-- Signature Section - Already Signed -->
+                <div class="signature-section">
+                  <div class="signed-status">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Signed & Confirmed
+                    <span class="signed-date">• Feb 11, 2025</span>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div class="transaction-item">
+            <div class="transaction-item" data-transaction-id="4">
               <div class="transaction-icon disbursement">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -134,6 +163,16 @@
                   <span class="transaction-type">1st Semester AY 2024-2025</span>
                 </div>
                 <span class="status-badge active">Completed</span>
+                <!-- Signature Section - Already Signed -->
+                <div class="signature-section">
+                  <div class="signed-status">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Signed & Confirmed
+                    <span class="signed-date">• Jan 16, 2025</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -145,6 +184,44 @@
     <div id="bottom-nav-placeholder"></div>
   </div>
 
+  <!-- Signature Confirmation Modal -->
+  <div class="signature-modal" id="signatureModal">
+    <div class="signature-modal-content">
+      <div class="signature-modal-header">
+        <h3>Confirm Receipt</h3>
+        <button class="signature-modal-close" onclick="closeSignatureModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="signature-modal-body">
+        <div class="signature-info">
+          <div class="signature-info-row">
+            <span class="signature-info-label">Disbursement Type</span>
+            <span class="signature-info-value" id="modalType">Tuition Disbursement</span>
+          </div>
+          <div class="signature-info-row">
+            <span class="signature-info-label">Amount</span>
+            <span class="signature-info-value" id="modalAmount">₱1,500</span>
+          </div>
+          <div class="signature-info-row">
+            <span class="signature-info-label">Date</span>
+            <span class="signature-info-value" id="modalDate">February 15, 2026</span>
+          </div>
+        </div>
+        <div class="signature-checkbox">
+          <input type="checkbox" id="confirmReceipt" onchange="toggleConfirmButton()">
+          <label for="confirmReceipt">I confirm that I have received this disbursement and acknowledge that this serves as my digital signature as proof of receipt.</label>
+        </div>
+      </div>
+      <div class="signature-modal-footer">
+        <button class="btn-cancel-sign" onclick="closeSignatureModal()">Cancel</button>
+        <button class="btn-confirm-sign" id="confirmSignBtn" disabled onclick="confirmSignature()">Confirm & Sign</button>
+      </div>
+    </div>
+  </div>
+
   <script src="js/navigation.js"></script>
   <script>
     // Filter tabs functionality
@@ -153,6 +230,67 @@
         document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
         this.classList.add('active');
       });
+    });
+
+    // Signature Modal Functions
+    let currentSignButton = null;
+
+    function openSignatureModal(button) {
+      currentSignButton = button;
+      const modal = document.getElementById('signatureModal');
+      
+      // Populate modal with transaction details
+      document.getElementById('modalType').textContent = button.dataset.type;
+      document.getElementById('modalAmount').textContent = button.dataset.amount;
+      document.getElementById('modalDate').textContent = button.dataset.date;
+      
+      // Reset checkbox and button
+      document.getElementById('confirmReceipt').checked = false;
+      document.getElementById('confirmSignBtn').disabled = true;
+      
+      modal.classList.add('active');
+    }
+
+    function closeSignatureModal() {
+      const modal = document.getElementById('signatureModal');
+      modal.classList.remove('active');
+      currentSignButton = null;
+    }
+
+    function toggleConfirmButton() {
+      const checkbox = document.getElementById('confirmReceipt');
+      const confirmBtn = document.getElementById('confirmSignBtn');
+      confirmBtn.disabled = !checkbox.checked;
+    }
+
+    function confirmSignature() {
+      if (!currentSignButton) return;
+      
+      // Get current date for signature timestamp
+      const now = new Date();
+      const options = { month: 'short', day: 'numeric', year: 'numeric' };
+      const signedDate = now.toLocaleDateString('en-US', options);
+      
+      // Replace the sign button with signed status
+      const signatureSection = currentSignButton.parentElement;
+      signatureSection.innerHTML = `
+        <div class="signed-status">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          Signed & Confirmed
+          <span class="signed-date">• ${signedDate}</span>
+        </div>
+      `;
+      
+      closeSignatureModal();
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('signatureModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeSignatureModal();
+      }
     });
   </script>
 </body>
