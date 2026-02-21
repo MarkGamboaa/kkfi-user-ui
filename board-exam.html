@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Board Exam Assistance - iSKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* AI Document Verifier Overlay Styles */
+    .ai-doc-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    .ai-doc-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ai-doc-modal {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px 24px;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .ai-doc-overlay.active .ai-doc-modal {
+      transform: scale(1);
+    }
+
+    /* Document Scanner Animation */
+    .ai-scanner-animation {
+      position: relative;
+      width: 140px;
+      height: 180px;
+      margin: 0 auto 24px;
+    }
+
+    .ai-doc-icon {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 12px;
+      border: 3px solid #dee2e6;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-doc-icon::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      height: 8px;
+      background: #dee2e6;
+      border-radius: 4px;
+    }
+
+    .ai-doc-icon::after {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: 20px;
+      right: 40px;
+      height: 8px;
+      background: #dee2e6;
+      border-radius: 4px;
+    }
+
+    .ai-doc-lines {
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ai-doc-lines span {
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 3px;
+    }
+
+    .ai-doc-lines span:nth-child(odd) { width: 100%; }
+    .ai-doc-lines span:nth-child(even) { width: 75%; }
+
+    .ai-scanner-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+      box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.5);
+      animation: aiScan 2s ease-in-out infinite;
+    }
+
+    @keyframes aiScan {
+      0%, 100% { top: 0; }
+      50% { top: calc(100% - 4px); }
+    }
+
+    .ai-scanner-corners {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+      pointer-events: none;
+    }
+
+    .ai-scanner-corners::before,
+    .ai-scanner-corners::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #8b5cf6;
+    }
+
+    .ai-scanner-corners::before {
+      top: 0;
+      left: 0;
+      border-right: none;
+      border-bottom: none;
+      border-radius: 8px 0 0 0;
+    }
+
+    .ai-scanner-corners::after {
+      top: 0;
+      right: 0;
+      border-left: none;
+      border-bottom: none;
+      border-radius: 0 8px 0 0;
+    }
+
+    .ai-scanner-corners-bottom {
+      position: absolute;
+      bottom: -8px;
+      left: -8px;
+      right: -8px;
+      height: 24px;
+      pointer-events: none;
+    }
+
+    .ai-scanner-corners-bottom::before,
+    .ai-scanner-corners-bottom::after {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #8b5cf6;
+    }
+
+    .ai-scanner-corners-bottom::before {
+      bottom: 0;
+      left: 0;
+      border-right: none;
+      border-top: none;
+      border-radius: 0 0 0 8px;
+    }
+
+    .ai-scanner-corners-bottom::after {
+      bottom: 0;
+      right: 0;
+      border-left: none;
+      border-top: none;
+      border-radius: 0 0 8px 0;
+    }
+
+    .ai-doc-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      margin: 0 0 6px 0;
+    }
+
+    .ai-doc-subtitle {
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+      margin: 0 0 28px 0;
+    }
+
+    .ai-doc-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .ai-doc-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+
+    .ai-doc-step.active {
+      opacity: 1;
+      background: #f3f0ff;
+      box-shadow: 0 0 0 2px #8b5cf6;
+    }
+
+    .ai-doc-step.completed {
+      opacity: 1;
+      background: #f0fdf4;
+    }
+
+    .ai-doc-step.warning {
+      opacity: 1;
+      background: #fffbeb;
+    }
+
+    .ai-doc-step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .ai-doc-step-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .ai-doc-step.active .ai-doc-step-icon {
+      background: linear-gradient(135deg, #8b5cf6, #5b5f97);
+    }
+
+    .ai-doc-step.active .ai-doc-step-icon svg {
+      color: #fff;
+    }
+
+    .ai-doc-step.completed .ai-doc-step-icon {
+      background: #22c55e;
+    }
+
+    .ai-doc-step.completed .ai-doc-step-icon svg {
+      color: #fff;
+    }
+
+    .ai-doc-step.warning .ai-doc-step-icon {
+      background: #f59e0b;
+    }
+
+    .ai-doc-step.warning .ai-doc-step-icon svg {
+      color: #fff;
+    }
+
+    .ai-doc-step-check {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .ai-doc-step.completed .ai-doc-step-check,
+    .ai-doc-step.warning .ai-doc-step-check {
+      opacity: 1;
+    }
+
+    .ai-doc-step.completed .ai-doc-step-icon > svg:first-child,
+    .ai-doc-step.warning .ai-doc-step-icon > svg:first-child {
+      opacity: 0;
+    }
+
+    .ai-doc-step-check svg {
+      width: 20px;
+      height: 20px;
+      color: #fff;
+    }
+
+    .ai-doc-step-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ai-doc-step-title {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 2px;
+    }
+
+    .ai-doc-step-desc {
+      display: block;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .ai-doc-step-loader {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e9ecef;
+      border-top-color: #8b5cf6;
+      border-radius: 50%;
+      opacity: 0;
+      animation: none;
+    }
+
+    .ai-doc-step.active .ai-doc-step-loader {
+      opacity: 1;
+      animation: aiDocSpin 0.8s linear infinite;
+    }
+
+    @keyframes aiDocSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .ai-doc-result {
+      text-align: center;
+    }
+
+    .ai-doc-result-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: aiDocResultPop 0.5s ease;
+    }
+
+    .ai-doc-result-icon.success {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .ai-doc-result-icon svg {
+      width: 44px;
+      height: 44px;
+      color: #fff;
+    }
+
+    @keyframes aiDocResultPop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .ai-doc-result-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 6px 0;
+    }
+
+    .ai-doc-result-subtitle {
+      font-size: 14px;
+      color: #888;
+      margin: 0 0 24px 0;
+    }
+
+    .ai-doc-checks {
+      margin-bottom: 20px;
+    }
+
+    .ai-doc-check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .ai-doc-check-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .ai-doc-check-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ai-doc-check-icon.pass {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .ai-doc-check-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .ai-doc-check-text {
+      font-size: 13px;
+      color: #555;
+    }
+
+    .ai-doc-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .ai-doc-actions .btn {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content appform-view">
+      <!-- Form Header -->
+      <div class="appform-header">
+        <a href="application.html" class="appform-back">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </a>
+        <h1 class="appform-title">Board Exam Assistance</h1>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="appform-progress-wrap">
+        <div class="appform-progress">
+          <div class="appform-progress-seg active" id="prog1"></div>
+          <div class="appform-progress-seg" id="prog2"></div>
+          <div class="appform-progress-seg" id="prog3"></div>
+        </div>
+      </div>
+
+      <!-- Step 1: Examination Information -->
+      <div class="appform-step active" id="step1">
+        <div class="appform-section">
+          <div class="appform-section-title">Examination Information</div>
+          
+          <div class="appform-card">
+            <div class="appform-group">
+              <label class="appform-label">Type of Assistance</label>
+              <select class="appform-select">
+                <option value="">Select type</option>
+                <option value="incentive" selected>Incentive</option>
+                <option value="review">Review Fee Assistance</option>
+                <option value="exam">Exam Fee Assistance</option>
+                <option value="both">Both Review and Exam</option>
+              </select>
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Board Exam Type</label>
+              <select class="appform-select">
+                <option value="">Select board exam</option>
+                <option value="let" selected>Licensure Exam for Teachers (LET)</option>
+                <option value="cpa">Certified Public Accountant (CPA)</option>
+                <option value="civil">Civil Engineering</option>
+                <option value="mechanical">Mechanical Engineering</option>
+                <option value="electrical">Electrical Engineering</option>
+                <option value="nurse">Nursing</option>
+                <option value="medtech">Medical Technology</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Exam Date</label>
+              <input type="date" class="appform-input" value="2026-03-01">
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Testing Center/Location</label>
+              <input type="text" class="appform-input" placeholder="Enter testing center" value="Manila">
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Have you taken this exam before?</label>
+              <select class="appform-select">
+                <option value="no" selected>No, this is my first attempt</option>
+                <option value="yes">Yes, this is a retake</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-actions">
+          <button type="button" class="appform-btn-next" onclick="goToStep(2)">
+            Next Step
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Supporting Documents -->
+      <div class="appform-step" id="step2">
+        <div class="appform-section">
+          <div class="appform-section-title">Supporting Documents</div>
+          
+          <div class="appform-card">
+            <div class="appform-group">
+              <label class="appform-label">Exam Registration/Confirmation</label>
+              <div class="appform-file-box">
+                <span class="appform-file-text">File Upload</span>
+                <input type="file" accept=".pdf,.png,.jpg,.jpeg">
+              </div>
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Certificate of Graduation/Candidacy</label>
+              <div class="appform-file-box">
+                <span class="appform-file-text">File Upload</span>
+                <input type="file" accept=".pdf,.png,.jpg,.jpeg">
+              </div>
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Review Course Enrollment (if applicable)</label>
+              <div class="appform-file-box">
+                <span class="appform-file-text">File Upload</span>
+                <input type="file" accept=".pdf,.png,.jpg,.jpeg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-actions">
+          <button type="button" class="appform-btn-next" onclick="goToStep(3)">
+            Next Step
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Review Information -->
+      <div class="appform-step" id="step3">
+        <div class="appform-section">
+          <div class="appform-section-title">Review Information</div>
+          
+          <div class="appform-card">
+            <div class="appform-review-section">
+              <div class="appform-review-title">Exam Information</div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Board Exam Type</span>
+                <span class="appform-review-value">Licensure Exam for Teachers (LET)</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Exam Date</span>
+                <span class="appform-review-value">March 1, 2026</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Testing Center/Location</span>
+                <span class="appform-review-value">Manila</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Have you taken this exam before?</span>
+                <span class="appform-review-value">No, this is my first attempt</span>
+              </div>
+            </div>
+
+            <div class="appform-review-section">
+              <div class="appform-review-title">Supporting Documents</div>
+              <div class="appform-doc-check">
+                <span class="appform-doc-name">Exam Registration/Confirmation</span>
+                <svg class="appform-check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div class="appform-doc-check">
+                <span class="appform-doc-name">Certificate of Graduation/Candidacy</span>
+                <svg class="appform-check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div class="appform-doc-check">
+                <span class="appform-doc-name">Review Course Enrollment</span>
+                <svg class="appform-check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-actions">
+          <button type="button" class="appform-btn-next appform-btn-submit" onclick="submitForm()">
+            Submit Application
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+
+    <!-- AI Document Verifier Overlay -->
+    <div class="ai-doc-overlay" id="ai-doc-overlay">
+      <div class="ai-doc-modal">
+        <!-- Processing State -->
+        <div class="ai-doc-processing" id="ai-doc-processing">
+          <div class="ai-scanner-animation">
+            <div class="ai-doc-icon">
+              <div class="ai-doc-lines">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="ai-scanner-line"></div>
+            </div>
+            <div class="ai-scanner-corners"></div>
+            <div class="ai-scanner-corners-bottom"></div>
+          </div>
+
+          <h2 class="ai-doc-title">AI Document Verifier</h2>
+          <p class="ai-doc-subtitle">Verifying your submitted documents...</p>
+
+          <div class="ai-doc-steps">
+            <div class="ai-doc-step" id="doc-step-upload">
+              <div class="ai-doc-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <div class="ai-doc-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-doc-step-info">
+                <span class="ai-doc-step-title">Processing Documents</span>
+                <span class="ai-doc-step-desc">Uploading 3 files...</span>
+              </div>
+              <div class="ai-doc-step-loader"></div>
+            </div>
+
+            <div class="ai-doc-step" id="doc-step-quality">
+              <div class="ai-doc-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
+                <div class="ai-doc-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-doc-step-info">
+                <span class="ai-doc-step-title">Analyzing Quality</span>
+                <span class="ai-doc-step-desc">Checking clarity and readability...</span>
+              </div>
+              <div class="ai-doc-step-loader"></div>
+            </div>
+
+            <div class="ai-doc-step" id="doc-step-format">
+              <div class="ai-doc-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <div class="ai-doc-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-doc-step-info">
+                <span class="ai-doc-step-title">Validating Documents</span>
+                <span class="ai-doc-step-desc">Verifying required documents...</span>
+              </div>
+              <div class="ai-doc-step-loader"></div>
+            </div>
+
+            <div class="ai-doc-step" id="doc-step-content">
+              <div class="ai-doc-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <div class="ai-doc-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-doc-step-info">
+                <span class="ai-doc-step-title">Finalizing Submission</span>
+                <span class="ai-doc-step-desc">Preparing application...</span>
+              </div>
+              <div class="ai-doc-step-loader"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Success Result State -->
+        <div class="ai-doc-result" id="ai-doc-result-success" style="display: none;">
+          <div class="ai-doc-result-icon success">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+
+          <h2 class="ai-doc-result-title">Application Submitted!</h2>
+          <p class="ai-doc-result-subtitle">All documents verified successfully</p>
+
+          <div class="ai-doc-checks">
+            <div class="ai-doc-check-item">
+              <div class="ai-doc-check-icon pass">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="ai-doc-check-text">Exam Registration - Clear & Verified</span>
+            </div>
+            <div class="ai-doc-check-item">
+              <div class="ai-doc-check-icon pass">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="ai-doc-check-text">Certificate of Graduation - Clear & Verified</span>
+            </div>
+            <div class="ai-doc-check-item">
+              <div class="ai-doc-check-icon pass">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="ai-doc-check-text">Review Course Enrollment - Clear & Verified</span>
+            </div>
+            <div class="ai-doc-check-item">
+              <div class="ai-doc-check-icon pass">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <span class="ai-doc-check-text">Application data complete</span>
+            </div>
+          </div>
+
+          <div class="ai-doc-actions">
+            <button class="btn btn-primary" onclick="finishSubmission()">
+              Done
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/navigation.js"></script>
+  <script>
+    function goToStep(step) {
+      document.querySelectorAll('.appform-step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+      
+      for (let i = 1; i <= 3; i++) {
+        const prog = document.getElementById('prog' + i);
+        prog.classList.remove('active', 'completed');
+        if (i < step) prog.classList.add('completed');
+        if (i === step) prog.classList.add('active');
+      }
+      
+      window.scrollTo(0, 0);
+    }
+
+    function submitForm() {
+      // Show AI verification overlay
+      document.getElementById('ai-doc-overlay').classList.add('active');
+      
+      // Start the verification animation
+      runDocVerification();
+    }
+
+    function runDocVerification() {
+      const steps = [
+        { id: 'doc-step-upload', delay: 0, duration: 1500 },
+        { id: 'doc-step-quality', delay: 1500, duration: 2000 },
+        { id: 'doc-step-format', delay: 3500, duration: 1500 },
+        { id: 'doc-step-content', delay: 5000, duration: 1500 }
+      ];
+
+      // Reset all steps
+      steps.forEach(step => {
+        const el = document.getElementById(step.id);
+        el.classList.remove('active', 'completed', 'warning');
+      });
+
+      // Reset result states
+      document.getElementById('ai-doc-processing').style.display = 'block';
+      document.getElementById('ai-doc-result-success').style.display = 'none';
+
+      // Animate each step
+      steps.forEach((step, index) => {
+        setTimeout(() => {
+          const el = document.getElementById(step.id);
+          el.classList.add('active');
+          
+          // Mark as completed after duration
+          setTimeout(() => {
+            el.classList.remove('active');
+            el.classList.add('completed');
+          }, step.duration - 200);
+        }, step.delay);
+      });
+
+      // Show result after all steps
+      setTimeout(() => {
+        document.getElementById('ai-doc-processing').style.display = 'none';
+        document.getElementById('ai-doc-result-success').style.display = 'block';
+      }, 6800);
+    }
+
+    function finishSubmission() {
+      document.getElementById('ai-doc-overlay').classList.remove('active');
+      setTimeout(() => {
+        window.location.href = 'application.html';
+      }, 300);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Details - iSKKOLAR</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #5b5f97;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+
+    .back-btn:hover {
+      color: #8b5cf6;
+    }
+
+    .back-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .scholarship-hero {
+      height: 220px;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      padding: 24px;
+    }
+
+    .scholarship-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(91, 95, 151, 0.95) 0%, rgba(91, 95, 151, 0.5) 50%, transparent 100%);
+    }
+
+    .scholarship-hero.nationwide {
+      background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=300&fit=crop');
+    }
+
+    .scholarship-hero.staff {
+      background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=300&fit=crop');
+    }
+
+    .scholarship-hero.vocational {
+      background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=300&fit=crop');
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-content h1 {
+      color: #fff;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .details-section {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .details-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #5b5f97;
+      margin: 0 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e8ebff;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .info-item {
+      padding: 16px;
+      background: #f8f9fc;
+      border-radius: 12px;
+    }
+
+    .info-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .info-value.highlight {
+      color: #5b5f97;
+    }
+
+    .description-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #555;
+    }
+
+    .requirements-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .requirements-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .requirements-list li:last-child {
+      border-bottom: none;
+    }
+
+    .req-icon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .req-icon svg {
+      width: 14px;
+      height: 14px;
+      color: #fff;
+    }
+
+    .req-text {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px;
+      background: linear-gradient(135deg, #f0f2ff, #f8f6ff);
+      border-radius: 10px;
+    }
+
+    .benefit-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #5b5f97, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .benefit-icon svg {
+      width: 18px;
+      height: 18px;
+      color: #fff;
+    }
+
+    .benefit-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .apply-section {
+        float: right;
+        max-width: 400px;
+    }
+
+    .main-content {
+        margin-bottom: 80px;
+    }
+
+    .apply-btn {
+      display: block;
+      width: 100%;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #5b5f97, #8b5cf6);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      text-align: center;
+      border: none;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .apply-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(91, 95, 151, 0.4);
+    }
+
+    @media (max-width: 500px) {
+      .info-grid, .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <a href="index.html" class="back-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Back to Scholarships
+      </a>
+
+      <!-- Scholarship Hero -->
+      <div class="scholarship-hero nationwide" id="scholarship-hero">
+        <div class="hero-content">
+          <h1 id="program-title">Nationwide Scholarship Program</h1>
+          <span class="hero-badge" id="program-type">Full Academic Year</span>
+        </div>
+      </div>
+
+      <!-- Overview Section -->
+      <div class="details-section">
+        <h2>Overview</h2>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-label">Grant Amount</div>
+            <div class="info-value highlight" id="grant-amount">Up to ₱30,000/year</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Duration</div>
+            <div class="info-value" id="duration">1 Academic Year</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Application Deadline</div>
+            <div class="info-value" id="deadline">March 31, 2026</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Status</div>
+            <div class="info-value highlight">Open for Application</div>
+          </div>
+        </div>
+        <p class="description-text" id="description">
+          Support for Filipino state university students to empower future leaders across the regions. This program aims to provide financial assistance to deserving students who demonstrate academic excellence and commitment to community service.
+        </p>
+      </div>
+
+      <!-- Requirements Section -->
+      <div class="details-section">
+        <h2>Requirements</h2>
+        <ul class="requirements-list" id="requirements-list">
+          <li>
+            <div class="req-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="req-text">Must be a Filipino citizen</span>
+          </li>
+          <li>
+            <div class="req-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="req-text">General Weighted Average (GWA) of 85% or higher</span>
+          </li>
+          <li>
+            <div class="req-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="req-text">Currently enrolled in a state university or college</span>
+          </li>
+          <li>
+            <div class="req-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <span class="req-text">Proof of family income (not exceeding ₱250,000 annually)</span>
+          </li>
+        </ul>
+      </div>
+
+
+          <!-- Apply Button Section -->
+    <div class="apply-section">
+      <a href="apply.html" id="apply-link" class="apply-btn">Apply Now</a>
+    </div>
+    </main>
+
+
+    
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="../js/navigation-applicant.js"></script>
+  <script>
+    // Get scholarship type from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type') || 'nationwide';
+
+    // Scholarship data
+    const scholarships = {
+      nationwide: {
+        title: 'Nationwide Scholarship Program',
+        type: 'Full Academic Year',
+        amount: 'Up to ₱30,000/year',
+        duration: '1 Academic Year',
+        deadline: 'March 31, 2026',
+        description: 'Support for Filipino state university students to empower future leaders across the regions. This program aims to provide financial assistance to deserving students who demonstrate academic excellence and commitment to community service.',
+        requirements: [
+          'Must be a Filipino citizen',
+          'General Weighted Average (GWA) of 85% or higher',
+          'Currently enrolled in a state university or college',
+          'Proof of family income (not exceeding ₱250,000 annually)'
+        ],
+        heroClass: 'nationwide'
+      },
+      staff: {
+        title: 'Staff Educational Assistance',
+        type: 'Tuition Support',
+        amount: 'Up to ₱30,000/year',
+        duration: '1 Academic Year',
+        deadline: 'April 15, 2026',
+        description: 'Educational support for regular KKFI employees, a slot for personal professional growth or a relative\'s studies. This program supports the continuous learning and development of our valued staff members and their families.',
+        requirements: [
+          'Must be a regular KKFI employee or immediate family member',
+          'At least 1 year of regular employment in KKFI',
+          'Currently enrolled in an accredited educational institution',
+          'Satisfactory academic standing'
+        ],
+        heroClass: 'staff'
+      },
+      vocational: {
+        title: 'Vocational and Technology Scholarship',
+        type: 'Skill Development',
+        amount: 'Up to ₱65,000',
+        duration: 'Course Duration',
+        deadline: 'May 30, 2026',
+        description: 'Practical skills-based scholarship for Filipinos, to fast-track employment and sustainable livelihoods. This program focuses on technical and vocational education to prepare scholars for immediate employment opportunities.',
+        requirements: [
+          'Must be a Filipino citizen',
+          'At least 18 years old',
+          'High school graduate or equivalent',
+          'Genuine interest in vocational/technical career paths'
+        ],
+        heroClass: 'vocational'
+      }
+    };
+
+    // Populate page with scholarship data
+    const scholarship = scholarships[type] || scholarships.nationwide;
+
+    document.getElementById('scholarship-hero').className = 'scholarship-hero ' + scholarship.heroClass;
+    document.getElementById('program-title').textContent = scholarship.title;
+    document.getElementById('program-type').textContent = scholarship.type;
+    document.getElementById('grant-amount').textContent = scholarship.amount;
+    document.getElementById('duration').textContent = scholarship.duration;
+    document.getElementById('deadline').textContent = scholarship.deadline;
+    document.getElementById('description').textContent = scholarship.description;
+
+    // Update requirements list
+    const reqList = document.getElementById('requirements-list');
+    reqList.innerHTML = scholarship.requirements.map(req => `
+      <li>
+        <div class="req-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <span class="req-text">${req}</span>
+      </li>
+    `).join('');
+
+    // Update apply link based on scholarship type
+    const applyLinks = {
+      'nationwide': 'apply-tertiary.html',
+      'staff': 'apply-staff.html',
+      'vocational': 'apply-vocational.html'
+    };
+    document.getElementById('apply-link').href = applyLinks[type] || 'apply-tertiary.html';
+
+    // Update page title
+    document.title = scholarship.title + ' - iSKKOLAR';
+  </script>
+</body>
+</html>

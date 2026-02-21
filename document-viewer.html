@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Viewer - iSKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Document Info Card -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="document-viewer-info">
+          <div class="document-info">
+            <div class="document-icon pdf">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div class="document-details">
+              <h4>Grades_FirstSem_2025.pdf</h4>
+              <p>Uploaded Feb 18, 2026 • 245 KB</p>
+            </div>
+          </div>
+          <span class="status-badge verified">Verified</span>
+        </div>
+      </div>
+
+      <!-- Document Preview -->
+      <div class="card document-preview-card">
+        <div class="document-preview-placeholder">
+          <div class="preview-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <h3>Document Preview</h3>
+          <p>This is a preview placeholder. In a real application, your PDF document would be displayed here.</p>
+          <div class="preview-sample">
+            <div class="sample-header"></div>
+            <div class="sample-line"></div>
+            <div class="sample-line short"></div>
+            <div class="sample-line"></div>
+            <div class="sample-line medium"></div>
+            <div class="sample-line"></div>
+            <div class="sample-line short"></div>
+            <div class="sample-table">
+              <div class="sample-cell"></div>
+              <div class="sample-cell"></div>
+              <div class="sample-cell"></div>
+              <div class="sample-cell"></div>
+              <div class="sample-cell"></div>
+              <div class="sample-cell"></div>
+            </div>
+            <div class="sample-line"></div>
+            <div class="sample-line medium"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="document-actions">
+        <a href="documents.html" class="btn btn-secondary">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+          Back to Documents
+        </a>
+        <button class="btn btn-danger" onclick="alert('Delete feature')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          Delete
+        </button>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="js/navigation.js"></script>
+  <style>
+    .document-viewer-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+    
+    .document-preview-card {
+      min-height: 500px;
+    }
+    
+    .document-preview-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    
+    .preview-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #f0f1f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+    
+    .preview-icon svg {
+      width: 30px;
+      height: 30px;
+      stroke: #5b5f97;
+    }
+    
+    .document-preview-placeholder h3 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .document-preview-placeholder > p {
+      color: #888;
+      font-size: 14px;
+      text-align: center;
+      max-width: 400px;
+      margin-bottom: 30px;
+    }
+    
+    .preview-sample {
+      width: 100%;
+      max-width: 500px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 25px;
+    }
+    
+    .sample-header {
+      height: 20px;
+      background: linear-gradient(90deg, #ddd 0%, #eee 50%, #ddd 100%);
+      border-radius: 4px;
+      margin-bottom: 20px;
+      width: 60%;
+    }
+    
+    .sample-line {
+      height: 10px;
+      background: #eee;
+      border-radius: 3px;
+      margin-bottom: 10px;
+    }
+    
+    .sample-line.short { width: 40%; }
+    .sample-line.medium { width: 70%; }
+    
+    .sample-table {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 20px 0;
+    }
+    
+    .sample-cell {
+      height: 30px;
+      background: #e8e8e8;
+      border-radius: 4px;
+    }
+    
+    .document-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .btn-danger {
+      background: #ef4444;
+      color: #fff;
+    }
+    
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+    
+    @media (max-width: 600px) {
+      .document-viewer-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .document-actions {
+        flex-direction: column;
+      }
+      
+      .document-actions .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iSKKOLAR - Select Role</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .role-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f8f9ff 0%, #e8ebff 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .role-logo {
+      margin-bottom: 16px;
+    }
+
+    .role-logo img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+    }
+
+    .role-branding {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .role-branding h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #5b5f97;
+      margin: 0 0 4px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .role-branding h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #8b5cf6;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .role-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .role-subtitle {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .role-cards {
+      display: flex;
+      gap: 24px;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .role-card {
+      flex: 1;
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 3px solid transparent;
+      box-shadow: 0 4px 20px rgba(91, 95, 151, 0.1);
+      text-decoration: none;
+    }
+
+    .role-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(91, 95, 151, 0.2);
+      border-color: #8b5cf6;
+    }
+
+    .role-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f3f0ff, #e8ebff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .role-icon svg {
+      width: 50px;
+      height: 50px;
+      color: #5b5f97;
+    }
+
+    .role-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .role-card-desc {
+      font-size: 13px;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    .role-card.scholar .role-icon {
+      background: linear-gradient(135deg, #dcfce7, #d1fae5);
+    }
+
+    .role-card.scholar .role-icon svg {
+      color: #16a34a;
+    }
+
+    .role-card.scholar:hover {
+      border-color: #22c55e;
+    }
+
+    .role-card.applicant .role-icon {
+      background: linear-gradient(135deg, #dbeafe, #e0e7ff);
+    }
+
+    .role-card.applicant .role-icon svg {
+      color: #5b5f97;
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-top: 16px;
+    }
+
+    .role-card.scholar .role-badge {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .role-card.applicant .role-badge {
+      background: #dbeafe;
+      color: #5b5f97;
+    }
+
+    .role-footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 13px;
+      color: #888;
+    }
+
+    @media (max-width: 600px) {
+      .role-cards {
+        flex-direction: column;
+      }
+
+      .role-branding h1 {
+        font-size: 22px;
+      }
+
+      .role-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="role-page">
+
+    <div class="role-cards">
+      <!-- Scholar Card -->
+      <a href="index.html" class="role-card scholar">
+        <div class="role-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+          </svg>
+        </div>
+        <div class="role-card-title">Scholar</div>
+        <p class="role-card-desc">Access your scholarship dashboard, submit requirements, and track your academic progress</p>
+        <span class="role-badge">Active Scholar</span>
+      </a>
+      <!-- Applicant Card -->
+      <a href="applicant/index.html" class="role-card applicant">
+        <div class="role-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+        </div>
+        <div class="role-card-title">Applicant</div>
+        <p class="role-card-desc">Apply for a scholarship program and track your application status</p>
+        <span class="role-badge">New Application</span>
+      </a>
+    </div>
+</body>
+</html>

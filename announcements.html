@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements - iSKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .announcements-container {
+      padding: 20px;
+    }
+    .page-header {
+      margin-bottom: 20px;
+    }
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 4px 0;
+    }
+    .page-subtitle {
+      font-size: 14px;
+      color: #888;
+      margin: 0;
+    }
+    .filter-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .filter-dropdown {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fff;
+      margin-bottom: 12px;
+      cursor: pointer;
+    }
+    .filter-dropdown:focus {
+      outline: none;
+      border-color: #5b5f97;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: #fff;
+    }
+    .search-bar svg {
+      width: 18px;
+      height: 18px;
+      color: #999;
+      flex-shrink: 0;
+    }
+    .search-bar input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      background: transparent;
+    }
+    .search-bar input::placeholder {
+      color: #aaa;
+    }
+    .announcement-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .announcement-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 14px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .announcement-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    .announcement-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 22px;
+    }
+    .announcement-icon.announcement {
+      background: #fff3e0;
+    }
+    .announcement-icon.event {
+      background: #e3f2fd;
+    }
+    .announcement-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .announcement-type {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .announcement-type.announcement {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+    .announcement-type.event {
+      background: #fce4ec;
+      color: #c2185b;
+    }
+    .announcement-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 6px 0;
+      line-height: 1.3;
+    }
+    .announcement-excerpt {
+      font-size: 13px;
+      color: #666;
+      margin: 0 0 10px 0;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .announcement-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .meta-label {
+      font-size: 11px;
+      color: #999;
+    }
+    .meta-date {
+      font-size: 12px;
+      color: #555;
+      font-weight: 500;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #888;
+    }
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      color: #ddd;
+      margin-bottom: 16px;
+    }
+    .empty-state h3 {
+      font-size: 18px;
+      color: #666;
+      margin: 0 0 8px 0;
+    }
+    .empty-state p {
+      font-size: 14px;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="announcements-container">
+        <div class="page-header">
+          <h1 class="page-title">Announcements</h1>
+          <p class="page-subtitle">Stay updated with news and events</p>
+        </div>
+
+        <!-- Filter & Search -->
+        <div class="filter-section">
+          <select class="filter-dropdown">
+            <option value="all">All</option>
+            <option value="announcements">Announcements</option>
+            <option value="events">Events</option>
+          </select>
+          <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" placeholder="Search...">
+          </div>
+        </div>
+
+        <!-- Announcement List (Dynamically rendered by JS) -->
+        <div class="announcement-list">
+          <!-- Announcements will be rendered here by JavaScript -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/announcements.js"></script>
+</body>
+</html>

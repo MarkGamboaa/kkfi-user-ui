@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarships Programs - iSKKOLAR</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .page-title-centered {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #5b5f97;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 30px 0 40px;
+    }
+
+    .scholarship-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      padding-bottom: 40px;
+    }
+
+    .scholarship-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+
+    .scholarship-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .card-image {
+      height: 180px;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .card-image::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(91, 95, 151, 0.9) 0%, rgba(91, 95, 151, 0.4) 50%, transparent 100%);
+    }
+
+    .card-image.nationwide {
+      background-image: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=200&fit=crop');
+    }
+
+    .card-image.staff {
+      background-image: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=200&fit=crop');
+    }
+
+    .card-image.vocational {
+      background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop');
+    }
+
+    .program-name {
+      position: relative;
+      z-index: 1;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.3;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .card-amount {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .card-type {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .card-requirement {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .card-description {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.5;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <h1 class="page-title-centered">Scholarships Programs</h1>
+
+      <!-- Scholarship Programs Grid -->
+      <div class="scholarship-grid">
+        <!-- Nationwide Scholarship Program -->
+        <a href="scholarship-details.html?type=nationwide" class="scholarship-card">
+          <div class="card-image nationwide">
+            <h2 class="program-name">Tertiary<br>Scholarship Program</h2>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-amount">Up to ₱30,000/year</span>
+              <span class="card-type">Full Academic Year</span>
+            </div>
+            <p class="card-requirement">GWA: 85% and above</p>
+            <p class="card-description">Support for Filipino state university students to empower future leaders across the regions.</p>
+          </div>
+        </a>
+
+        <!-- Staff Educational Assistance -->
+        <a href="scholarship-details.html?type=staff" class="scholarship-card">
+          <div class="card-image staff">
+            <h2 class="program-name">KKFI Employee-Child Education<br>Grant</h2>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-amount">Up to ₱30,000/year</span>
+              <span class="card-type">Tuition Support</span>
+            </div>
+            <p class="card-requirement">Staff and Family</p>
+            <p class="card-description">Educational support for regular KKFI employees, a slot for personal professional growth or a relative's studies.</p>
+          </div>
+        </a>
+
+        <!-- Vocational and Technology Scholarship -->
+        <a href="scholarship-details.html?type=vocational" class="scholarship-card">
+          <div class="card-image vocational">
+            <h2 class="program-name">Vocational and Technology<br>Scholarship</h2>
+          </div>
+          <div class="card-body">
+            <div class="card-meta">
+              <span class="card-amount">Up to ₱65,000</span>
+              <span class="card-type">Skill Development</span>
+            </div>
+            <p class="card-requirement">Certification</p>
+            <p class="card-description">Practical skills-based scholarship for Filipinos, to fast-track employment and sustainable livelihoods.</p>
+          </div>
+        </a>
+      </div>
+    </main>
+    
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="../js/navigation-applicant.js"></script>
+</body>
+</html>

@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grade Compliance - iSKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* AI Reviewer Overlay Styles */
+    .ai-reviewer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      padding: 20px;
+    }
+
+    .ai-reviewer-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ai-reviewer-modal {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px 24px;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .ai-reviewer-overlay.active .ai-reviewer-modal {
+      transform: scale(1);
+    }
+
+    /* AI Brain Animation */
+    .ai-brain-animation {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+    }
+
+    .ai-brain {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .ai-brain svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .ai-circle {
+      animation: aiRotate 8s linear infinite;
+      transform-origin: center;
+    }
+
+    .ai-brain-path {
+      animation: aiPulse 2s ease-in-out infinite;
+    }
+
+    .ai-node {
+      animation: aiNodePulse 1.5s ease-in-out infinite;
+    }
+
+    .ai-node-1 { animation-delay: 0s; }
+    .ai-node-2 { animation-delay: 0.3s; }
+    .ai-node-3 { animation-delay: 0.6s; }
+    .ai-node-4 { animation-delay: 0.9s; }
+    .ai-node-5 { animation-delay: 1.2s; }
+
+    .ai-connection {
+      animation: aiConnection 2s ease-in-out infinite;
+      stroke-dasharray: 20;
+      stroke-dashoffset: 0;
+    }
+
+    .ai-pulse {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      border: 2px solid #8b5cf6;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: aiPulseRing 2s ease-out infinite;
+    }
+
+    .ai-pulse-2 {
+      animation-delay: 1s;
+    }
+
+    @keyframes aiRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes aiPulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes aiNodePulse {
+      0%, 100% { r: 4; opacity: 0.7; }
+      50% { r: 6; opacity: 1; }
+    }
+
+    @keyframes aiConnection {
+      0% { stroke-dashoffset: 40; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    @keyframes aiPulseRing {
+      0% {
+        width: 60px;
+        height: 60px;
+        opacity: 0.8;
+      }
+      100% {
+        width: 140px;
+        height: 140px;
+        opacity: 0;
+      }
+    }
+
+    /* AI Title & Subtitle */
+    .ai-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      margin: 0 0 6px 0;
+    }
+
+    .ai-subtitle {
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+      margin: 0 0 28px 0;
+    }
+
+    /* AI Steps */
+    .ai-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ai-step {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+
+    .ai-step.active {
+      opacity: 1;
+      background: #f3f0ff;
+      box-shadow: 0 0 0 2px #8b5cf6;
+    }
+
+    .ai-step.completed {
+      opacity: 1;
+      background: #f0fdf4;
+    }
+
+    .ai-step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .ai-step-icon svg {
+      width: 20px;
+      height: 20px;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .ai-step.active .ai-step-icon {
+      background: linear-gradient(135deg, #8b5cf6, #5b5f97);
+    }
+
+    .ai-step.active .ai-step-icon svg {
+      color: #fff;
+    }
+
+    .ai-step.completed .ai-step-icon {
+      background: #22c55e;
+    }
+
+    .ai-step.completed .ai-step-icon svg {
+      color: #fff;
+    }
+
+    .ai-step-check {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .ai-step.completed .ai-step-check {
+      opacity: 1;
+    }
+
+    .ai-step.completed .ai-step-icon > svg:first-child {
+      opacity: 0;
+    }
+
+    .ai-step-check svg {
+      width: 20px;
+      height: 20px;
+      color: #fff;
+    }
+
+    .ai-step-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ai-step-title {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 2px;
+    }
+
+    .ai-step-desc {
+      display: block;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .ai-step-loader {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e9ecef;
+      border-top-color: #8b5cf6;
+      border-radius: 50%;
+      opacity: 0;
+      animation: none;
+    }
+
+    .ai-step.active .ai-step-loader {
+      opacity: 1;
+      animation: aiSpin 0.8s linear infinite;
+    }
+
+    @keyframes aiSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* AI Result */
+    .ai-result {
+      text-align: center;
+    }
+
+    .ai-result-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: aiResultPop 0.5s ease;
+    }
+
+    .ai-result-icon.success {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .ai-result-icon svg {
+      width: 44px;
+      height: 44px;
+      color: #fff;
+    }
+
+    @keyframes aiResultPop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .ai-result-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 6px 0;
+    }
+
+    .ai-result-subtitle {
+      font-size: 14px;
+      color: #888;
+      margin: 0 0 24px 0;
+    }
+
+    .ai-result-card {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .ai-result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+    }
+
+    .ai-result-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .ai-result-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .ai-result-divider {
+      height: 1px;
+      background: #e9ecef;
+    }
+
+    .ai-result-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .ai-result-status.compliant {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .ai-result-status svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .ai-result-subjects {
+      background: #f8f9fa;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .ai-result-subjects h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 12px 0;
+    }
+
+    .ai-subjects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ai-subject-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #fff;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .ai-subject-item span:first-child {
+      color: #555;
+    }
+
+    .ai-subject-grade {
+      font-weight: 600;
+      color: #5b5f97;
+    }
+
+    .ai-result-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .ai-result-actions .btn {
+      flex: 1;
+    }
+
+    /* Verification Question */
+    .ai-verify-question {
+      background: linear-gradient(135deg, #f3f0ff, #e8f4ff);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .ai-verify-question h4 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 16px 0;
+    }
+
+    .ai-verify-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .ai-verify-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .ai-verify-btn.yes {
+      background: #22c55e;
+      color: #fff;
+    }
+
+    .ai-verify-btn.yes:hover {
+      background: #16a34a;
+    }
+
+    .ai-verify-btn.no {
+      background: #fff;
+      color: #dc2626;
+      border: 2px solid #dc2626;
+    }
+
+    .ai-verify-btn.no:hover {
+      background: #fef2f2;
+    }
+
+    .ai-verify-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Manual Edit Form */
+    .ai-manual-edit {
+      text-align: left;
+    }
+
+    .ai-manual-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .ai-manual-header h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 6px 0;
+    }
+
+    .ai-manual-header p {
+      font-size: 13px;
+      color: #888;
+      margin: 0;
+    }
+
+    .ai-edit-subjects {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .ai-edit-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .ai-edit-subject {
+      flex: 2;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .ai-edit-subject:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+
+    .ai-edit-units {
+      width: 70px;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+      background: #fff;
+    }
+
+    .ai-edit-units:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+
+    .ai-edit-grade {
+      width: 70px;
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 13px;
+      text-align: center;
+      background: #fff;
+    }
+
+    .ai-edit-grade:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+
+    .ai-edit-remove {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: #fee2e2;
+      color: #dc2626;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .ai-edit-remove:hover {
+      background: #fecaca;
+    }
+
+    .ai-edit-remove svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .ai-add-subject {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border: 2px dashed #e0e0e0;
+      border-radius: 8px;
+      background: transparent;
+      color: #888;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 20px;
+    }
+
+    .ai-add-subject:hover {
+      border-color: #8b5cf6;
+      color: #8b5cf6;
+    }
+
+    .ai-add-subject svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .ai-gwa-preview {
+      background: linear-gradient(135deg, #f3f0ff, #e8f4ff);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .ai-gwa-preview-label {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .ai-gwa-preview-value {
+      font-size: 28px;
+      font-weight: 700;
+      color: #5b5f97;
+    }
+
+    .ai-edit-labels {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .ai-edit-labels span {
+      font-size: 11px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .ai-edit-labels span:nth-child(1) { flex: 2; }
+    .ai-edit-labels span:nth-child(2) { width: 70px; text-align: center; }
+    .ai-edit-labels span:nth-child(3) { width: 70px; text-align: center; }
+    .ai-edit-labels span:nth-child(4) { width: 32px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Compliance Status -->
+      <div class="compliance-status-card">
+        <div class="compliance-icon compliant">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="compliance-info">
+          <h2>You are Compliant</h2>
+          <p>Your grades meet the scholarship requirements</p>
+        </div>
+        <div class="compliance-details">
+          <div class="compliance-stat">
+            <span class="stat-label">Required GWA</span>
+            <span class="stat-value">2.0</span>
+          </div>
+          <div class="compliance-stat">
+            <span class="stat-label">Your GWA</span>
+            <span class="stat-value highlight">1.75</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submission Form -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Submit Grades</h3>
+          <p class="card-subtitle">Submit your grades for the current term</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Academic Year</label>
+          <div class="form-select-wrapper">
+            <select class="form-select">
+              <option value="">Select Academic Year</option>
+              <option value="2025-2026" selected>2025-2026</option>
+              <option value="2026-2027">2026-2027</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Term / Semester</label>
+          <div class="form-select-wrapper">
+            <select class="form-select">
+              <option value="">Select Term</option>
+              <option value="1st">1st Semester</option>
+              <option value="2nd" selected>2nd Semester</option>
+              <option value="summer">Summer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">General Weighted Average (GWA)</label>
+          <input type="text" class="form-input" placeholder="e.g., 1.75">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Report Card / Official Grades</label>
+          <div class="file-upload">
+            <div class="file-upload-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+              </svg>
+            </div>
+            <p class="file-upload-text">Click to upload or drag and drop</p>
+            <p class="file-upload-hint">PDF, PNG, or JPG (max 5MB)</p>
+            <input type="file" class="file-input" accept=".pdf,.png,.jpg,.jpeg">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Additional Notes (Optional)</label>
+          <textarea class="form-textarea" placeholder="Any additional information..." rows="3"></textarea>
+        </div>
+
+        <div class="form-actions">
+          <a href="application.html" class="btn btn-secondary">Cancel</a>
+          <button type="button" class="btn btn-primary" onclick="submitGrades()">
+            Submit Grades
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Submission History -->
+      <div class="card mt-20">
+        <div class="card-header">
+          <h3 class="card-title">Submission History</h3>
+        </div>
+
+        <div class="grade-history-list">
+          <div class="grade-history-item">
+            <div class="grade-term">
+              <h4>1st Semester 2025-2026</h4>
+              <span class="grade-date">Submitted: February 15, 2026</span>
+            </div>
+            <div class="grade-info">
+              <span class="grade-gwa">GWA: 1.75</span>
+              <span class="status-badge active">Verified</span>
+            </div>
+          </div>
+
+          <div class="grade-history-item">
+            <div class="grade-term">
+              <h4>2nd Semester 2024-2025</h4>
+              <span class="grade-date">Submitted: August 20, 2025</span>
+            </div>
+            <div class="grade-info">
+              <span class="grade-gwa">GWA: 1.80</span>
+              <span class="status-badge active">Verified</span>
+            </div>
+          </div>
+
+          <div class="grade-history-item">
+            <div class="grade-term">
+              <h4>1st Semester 2024-2025</h4>
+              <span class="grade-date">Submitted: February 10, 2025</span>
+            </div>
+            <div class="grade-info">
+              <span class="grade-gwa">GWA: 1.85</span>
+              <span class="status-badge active">Verified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+
+    <!-- AI Reviewer Overlay -->
+    <div class="ai-reviewer-overlay" id="ai-reviewer-overlay">
+      <div class="ai-reviewer-modal">
+        <!-- Processing State -->
+        <div class="ai-processing" id="ai-processing">
+          <div class="ai-brain-animation">
+            <div class="ai-brain">
+              <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#8b5cf6"/>
+                    <stop offset="100%" style="stop-color:#5b5f97"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="45" fill="none" stroke="url(#brainGradient)" stroke-width="2" class="ai-circle"/>
+                <path d="M30 50 Q35 35 50 30 Q65 35 70 50 Q65 65 50 70 Q35 65 30 50" fill="none" stroke="url(#brainGradient)" stroke-width="2" class="ai-brain-path"/>
+                <circle cx="40" cy="40" r="4" fill="#8b5cf6" class="ai-node ai-node-1"/>
+                <circle cx="60" cy="40" r="4" fill="#5b5f97" class="ai-node ai-node-2"/>
+                <circle cx="50" cy="55" r="4" fill="#8b5cf6" class="ai-node ai-node-3"/>
+                <circle cx="35" cy="55" r="3" fill="#5b5f97" class="ai-node ai-node-4"/>
+                <circle cx="65" cy="55" r="3" fill="#8b5cf6" class="ai-node ai-node-5"/>
+                <line x1="40" y1="40" x2="60" y2="40" stroke="#8b5cf6" stroke-width="1.5" class="ai-connection"/>
+                <line x1="40" y1="40" x2="50" y2="55" stroke="#5b5f97" stroke-width="1.5" class="ai-connection"/>
+                <line x1="60" y1="40" x2="50" y2="55" stroke="#8b5cf6" stroke-width="1.5" class="ai-connection"/>
+                <line x1="35" y1="55" x2="50" y2="55" stroke="#5b5f97" stroke-width="1.5" class="ai-connection"/>
+                <line x1="50" y1="55" x2="65" y2="55" stroke="#8b5cf6" stroke-width="1.5" class="ai-connection"/>
+              </svg>
+            </div>
+            <div class="ai-pulse"></div>
+            <div class="ai-pulse ai-pulse-2"></div>
+          </div>
+
+          <h2 class="ai-title">AI Grade Reviewer</h2>
+          <p class="ai-subtitle">Analyzing your submitted grades...</p>
+
+          <div class="ai-steps">
+            <div class="ai-step" id="step-upload">
+              <div class="ai-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <div class="ai-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-step-info">
+                <span class="ai-step-title">Uploading Document</span>
+                <span class="ai-step-desc">Processing your grade report...</span>
+              </div>
+              <div class="ai-step-loader"></div>
+            </div>
+
+            <div class="ai-step" id="step-extract">
+              <div class="ai-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <div class="ai-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-step-info">
+                <span class="ai-step-title">Extracting Grades</span>
+                <span class="ai-step-desc">Reading subject grades from document...</span>
+              </div>
+              <div class="ai-step-loader"></div>
+            </div>
+
+            <div class="ai-step" id="step-calculate">
+              <div class="ai-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                </svg>
+                <div class="ai-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-step-info">
+                <span class="ai-step-title">Computing GWA</span>
+                <span class="ai-step-desc">Calculating weighted average...</span>
+              </div>
+              <div class="ai-step-loader"></div>
+            </div>
+
+            <div class="ai-step" id="step-verify">
+              <div class="ai-step-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <div class="ai-step-check">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="ai-step-info">
+                <span class="ai-step-title">Verifying Compliance</span>
+                <span class="ai-step-desc">Checking against requirements...</span>
+              </div>
+              <div class="ai-step-loader"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Result State -->
+        <div class="ai-result" id="ai-result" style="display: none;">
+          <div class="ai-result-icon success">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+
+          <h2 class="ai-result-title">Analysis Complete!</h2>
+          <p class="ai-result-subtitle">Your grades have been successfully reviewed</p>
+
+          <div class="ai-result-card">
+            <div class="ai-result-row">
+              <span class="ai-result-label">Detected GWA</span>
+              <span class="ai-result-value">1.75</span>
+            </div>
+            <div class="ai-result-divider"></div>
+            <div class="ai-result-row">
+              <span class="ai-result-label">Required GWA</span>
+              <span class="ai-result-value">2.0</span>
+            </div>
+            <div class="ai-result-divider"></div>
+            <div class="ai-result-row">
+              <span class="ai-result-label">Status</span>
+              <span class="ai-result-status compliant">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Compliant
+              </span>
+            </div>
+          </div>
+
+          <div class="ai-result-subjects">
+            <h4>Extracted Subjects</h4>
+            <div class="ai-subjects-list">
+              <div class="ai-subject-item">
+                <span>Mathematics 101</span>
+                <span class="ai-subject-grade">1.50</span>
+              </div>
+              <div class="ai-subject-item">
+                <span>English 101</span>
+                <span class="ai-subject-grade">1.75</span>
+              </div>
+              <div class="ai-subject-item">
+                <span>Science 101</span>
+                <span class="ai-subject-grade">2.00</span>
+              </div>
+              <div class="ai-subject-item">
+                <span>Filipino 101</span>
+                <span class="ai-subject-grade">1.75</span>
+              </div>
+              <div class="ai-subject-item">
+                <span>History 101</span>
+                <span class="ai-subject-grade">1.75</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Verification Question -->
+          <div class="ai-verify-question">
+            <h4>Are these grades accurate?</h4>
+            <div class="ai-verify-buttons">
+              <button class="ai-verify-btn yes" onclick="gradesAccurate()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                Yes, Submit
+              </button>
+              <button class="ai-verify-btn no" onclick="showManualEdit()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                </svg>
+                No, Edit
+              </button>
+            </div>
+          </div>
+
+          <div class="ai-result-actions">
+            <button class="btn btn-secondary" onclick="closeAIReview()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Manual Edit State -->
+        <div class="ai-manual-edit" id="ai-manual-edit" style="display: none;">
+          <div class="ai-manual-header">
+            <h2>Edit Your Grades</h2>
+            <p>Correct any inaccurate subjects, units, or grades below</p>
+          </div>
+
+          <div class="ai-edit-labels">
+            <span>Subject</span>
+            <span>Units</span>
+            <span>Grade</span>
+            <span></span>
+          </div>
+
+          <div class="ai-edit-subjects" id="ai-edit-subjects">
+            <div class="ai-edit-row">
+              <input type="text" class="ai-edit-subject" value="Mathematics 101" placeholder="Subject name">
+              <input type="number" class="ai-edit-units" value="3" placeholder="Units" step="0.5" min="0">
+              <input type="text" class="ai-edit-grade" value="1.50" placeholder="Grade">
+              <button class="ai-edit-remove" onclick="removeSubjectRow(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="ai-edit-row">
+              <input type="text" class="ai-edit-subject" value="English 101" placeholder="Subject name">
+              <input type="number" class="ai-edit-units" value="3" placeholder="Units" step="0.5" min="0">
+              <input type="text" class="ai-edit-grade" value="1.75" placeholder="Grade">
+              <button class="ai-edit-remove" onclick="removeSubjectRow(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="ai-edit-row">
+              <input type="text" class="ai-edit-subject" value="Science 101" placeholder="Subject name">
+              <input type="number" class="ai-edit-units" value="3" placeholder="Units" step="0.5" min="0">
+              <input type="text" class="ai-edit-grade" value="2.00" placeholder="Grade">
+              <button class="ai-edit-remove" onclick="removeSubjectRow(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="ai-edit-row">
+              <input type="text" class="ai-edit-subject" value="Filipino 101" placeholder="Subject name">
+              <input type="number" class="ai-edit-units" value="3" placeholder="Units" step="0.5" min="0">
+              <input type="text" class="ai-edit-grade" value="1.75" placeholder="Grade">
+              <button class="ai-edit-remove" onclick="removeSubjectRow(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+            <div class="ai-edit-row">
+              <input type="text" class="ai-edit-subject" value="History 101" placeholder="Subject name">
+              <input type="number" class="ai-edit-units" value="3" placeholder="Units" step="0.5" min="0">
+              <input type="text" class="ai-edit-grade" value="1.75" placeholder="Grade">
+              <button class="ai-edit-remove" onclick="removeSubjectRow(this)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <button class="ai-add-subject" onclick="addSubjectRow()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+            </svg>
+            Add Subject
+          </button>
+
+          <div class="ai-gwa-preview">
+            <div class="ai-gwa-preview-label">Calculated GWA</div>
+            <div class="ai-gwa-preview-value" id="calculated-gwa">1.75</div>
+          </div>
+
+          <div class="ai-result-actions">
+            <button class="btn btn-secondary" onclick="backToResult()">Back</button>
+            <button class="btn btn-primary" onclick="confirmManualSubmission()">
+              Submit Grades
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/navigation.js"></script>
+  <script>
+    function submitGrades() {
+      // Show the AI reviewer overlay
+      document.getElementById('ai-reviewer-overlay').classList.add('active');
+      
+      // Start the animation sequence
+      startAIReview();
+    }
+
+    function startAIReview() {
+      const steps = [
+        { id: 'step-upload', delay: 0, duration: 1500 },
+        { id: 'step-extract', delay: 1500, duration: 2000 },
+        { id: 'step-calculate', delay: 3500, duration: 1500 },
+        { id: 'step-verify', delay: 5000, duration: 1500 }
+      ];
+
+      // Reset all steps
+      steps.forEach(step => {
+        const el = document.getElementById(step.id);
+        el.classList.remove('active', 'completed');
+      });
+
+      // Animate each step
+      steps.forEach((step, index) => {
+        setTimeout(() => {
+          const el = document.getElementById(step.id);
+          el.classList.add('active');
+          
+          // Mark as completed after duration
+          setTimeout(() => {
+            el.classList.remove('active');
+            el.classList.add('completed');
+          }, step.duration - 200);
+        }, step.delay);
+      });
+
+      // Show result after all steps
+      setTimeout(() => {
+        document.getElementById('ai-processing').style.display = 'none';
+        document.getElementById('ai-result').style.display = 'block';
+      }, 6800);
+    }
+
+    function closeAIReview() {
+      document.getElementById('ai-reviewer-overlay').classList.remove('active');
+      // Reset for next use
+      setTimeout(() => {
+        document.getElementById('ai-processing').style.display = 'block';
+        document.getElementById('ai-result').style.display = 'none';
+        document.getElementById('ai-manual-edit').style.display = 'none';
+      }, 300);
+    }
+
+    function gradesAccurate() {
+      closeAIReview();
+      // Show success message
+      setTimeout(() => {
+        alert('Grades submitted successfully!');
+      }, 300);
+    }
+
+    function showManualEdit() {
+      document.getElementById('ai-result').style.display = 'none';
+      document.getElementById('ai-manual-edit').style.display = 'block';
+      calculateGWA();
+    }
+
+    function backToResult() {
+      document.getElementById('ai-manual-edit').style.display = 'none';
+      document.getElementById('ai-result').style.display = 'block';
+    }
+
+    function addSubjectRow() {
+      const container = document.getElementById('ai-edit-subjects');
+      const newRow = document.createElement('div');
+      newRow.className = 'ai-edit-row';
+      newRow.innerHTML = `
+        <input type="text" class="ai-edit-subject" placeholder="Subject name">
+        <input type="number" class="ai-edit-units" value="3" placeholder="Units" step="0.5" min="0">
+        <input type="text" class="ai-edit-grade" placeholder="Grade">
+        <button class="ai-edit-remove" onclick="removeSubjectRow(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      `;
+      container.appendChild(newRow);
+      
+      // Add event listeners for GWA calculation
+      newRow.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', calculateGWA);
+      });
+    }
+
+    function removeSubjectRow(btn) {
+      const row = btn.closest('.ai-edit-row');
+      row.remove();
+      calculateGWA();
+    }
+
+    function calculateGWA() {
+      const rows = document.querySelectorAll('.ai-edit-row');
+      let totalUnits = 0;
+      let totalGradePoints = 0;
+
+      rows.forEach(row => {
+        const units = parseFloat(row.querySelector('.ai-edit-units').value) || 0;
+        const grade = parseFloat(row.querySelector('.ai-edit-grade').value) || 0;
+        
+        if (units > 0 && grade > 0) {
+          totalUnits += units;
+          totalGradePoints += units * grade;
+        }
+      });
+
+      const gwa = totalUnits > 0 ? (totalGradePoints / totalUnits).toFixed(2) : '0.00';
+      document.getElementById('calculated-gwa').textContent = gwa;
+    }
+
+    function confirmManualSubmission() {
+      closeAIReview();
+      setTimeout(() => {
+        alert('Grades submitted successfully!');
+      }, 300);
+    }
+
+    // Add event listeners when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.ai-edit-row input').forEach(input => {
+        input.addEventListener('input', calculateGWA);
+      });
+    });
+  </script>
+</body>
+</html>

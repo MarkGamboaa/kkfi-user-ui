@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcement - iSKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <article class="announcement-detail" id="announcement-detail">
+        <div class="announcement-badge" id="announcement-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="badge-icon-announcement" style="display:none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="badge-icon-event" style="display:none;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span id="badge-text">Loading...</span>
+        </div>
+        
+        <h1 class="announcement-title" id="announcement-title">Loading...</h1>
+        
+        <div class="announcement-meta">
+          <span class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span id="announcement-date">Loading...</span>
+          </span>
+          <span class="meta-item">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span id="announcement-author">Admin</span>
+          </span>
+        </div>
+        
+        <div class="announcement-content" id="announcement-content">
+          <p>Loading content...</p>
+        </div>
+        
+        <div class="announcement-actions">
+          <a href="announcements.html" class="btn btn-secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+            Back to Announcements
+          </a>
+        </div>
+      </article>
+
+      <!-- Not Found State -->
+      <div class="announcement-not-found" id="announcement-not-found" style="display:none;">
+        <div style="text-align:center; padding:60px 20px;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width:64px;height:64px;color:#ddd;margin-bottom:16px;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <h2 style="color:#666;margin:0 0 8px 0;">Announcement Not Found</h2>
+          <p style="color:#888;margin:0 0 20px 0;">The announcement you're looking for doesn't exist or has been removed.</p>
+          <a href="announcements.html" class="btn btn-primary">Back to Announcements</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/navigation.js"></script>
+  <script>
+    // Load announcement details based on URL parameter
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const announcementId = parseInt(urlParams.get('id'));
+      
+      const detailContainer = document.getElementById('announcement-detail');
+      const notFoundContainer = document.getElementById('announcement-not-found');
+      
+      if (!announcementId) {
+        detailContainer.style.display = 'none';
+        notFoundContainer.style.display = 'block';
+        return;
+      }
+      
+      // Find announcement by ID
+      const announcement = userData.announcements.find(a => a.id === announcementId);
+      
+      if (!announcement) {
+        detailContainer.style.display = 'none';
+        notFoundContainer.style.display = 'block';
+        return;
+      }
+      
+      // Update page title
+      document.title = announcement.title + ' - iSKKOLAR';
+      
+      // Update badge
+      const badge = document.getElementById('announcement-badge');
+      const badgeText = document.getElementById('badge-text');
+      const badgeIconAnnouncement = document.getElementById('badge-icon-announcement');
+      const badgeIconEvent = document.getElementById('badge-icon-event');
+      
+      if (announcement.type === 'event') {
+        badge.className = 'announcement-badge event';
+        badgeText.textContent = 'Event';
+        badgeIconEvent.style.display = 'inline';
+        badgeIconAnnouncement.style.display = 'none';
+      } else {
+        badge.className = 'announcement-badge announcement';
+        badgeText.textContent = 'Announcement';
+        badgeIconAnnouncement.style.display = 'inline';
+        badgeIconEvent.style.display = 'none';
+      }
+      
+      // Update title, date, author, content
+      document.getElementById('announcement-title').textContent = announcement.title;
+      document.getElementById('announcement-date').textContent = announcement.dateTime || announcement.date;
+      document.getElementById('announcement-author').textContent = announcement.author || 'Admin';
+      document.getElementById('announcement-content').innerHTML = announcement.content;
+    });
+  </script>
+</body>
+</html>

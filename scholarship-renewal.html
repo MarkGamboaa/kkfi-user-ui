@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scholarship Renewal - iSKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content appform-view">
+      <!-- Form Header -->
+      <div class="appform-header">
+        <a href="application.html" class="appform-back">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </a>
+        <h1 class="appform-title">Scholarship Renewal</h1>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="appform-progress-wrap">
+        <div class="appform-progress">
+          <div class="appform-progress-seg active" id="prog1"></div>
+          <div class="appform-progress-seg" id="prog2"></div>
+          <div class="appform-progress-seg" id="prog3"></div>
+        </div>
+      </div>
+
+      <!-- Step 1: Renewal Information -->
+      <div class="appform-step active" id="step1">
+        <div class="appform-section">
+          <div class="appform-section-title">Renewal Information</div>
+          
+          <div class="appform-card">
+            <div class="appform-group">
+              <label class="appform-label">Current Scholarship</label>
+              <input type="text" class="appform-input" placeholder="Enter scholarship program" value="Tertiary Scholarship Program">
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Current Academic Year</label>
+              <input type="text" class="appform-input" placeholder="e.g., 2025-2026" value="2025 - 2026">
+            </div>
+
+            <div class="appform-row">
+              <div class="appform-group">
+                <label class="appform-label">Renewing For</label>
+                <select class="appform-select">
+                  <option value="2026-2027" selected>2026 - 2027</option>
+                  <option value="2027-2028">2027 - 2028</option>
+                </select>
+              </div>
+              <div class="appform-group">
+                <label class="appform-label">Year Level</label>
+                <select class="appform-select">
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3">3rd Year</option>
+                  <option value="4" selected>4th Year</option>
+                  <option value="5">5th Year</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">COR (This Coming Academic Year)</label>
+              <div class="appform-file-box">
+                <span class="appform-file-text">File Upload</span>
+                <input type="file" accept=".pdf,.png,.jpg,.jpeg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-actions">
+          <button type="button" class="appform-btn-next" onclick="goToStep(2)">
+            Next Step
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Current School Information -->
+      <div class="appform-step" id="step2">
+        <div class="appform-section">
+          <div class="appform-section-title">Current School Information</div>
+          <div class="appform-year-badge">Academic Year 2026-2027</div>
+          
+          <div class="appform-card">
+            <div class="appform-group">
+              <label class="appform-label">School Name</label>
+              <input type="text" class="appform-input" placeholder="Enter school name">
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Program</label>
+              <input type="text" class="appform-input" placeholder="Enter program/course">
+            </div>
+
+            <div class="appform-row">
+              <div class="appform-group">
+                <label class="appform-label">Current Year Level</label>
+                <select class="appform-select">
+                  <option value="">Select</option>
+                  <option value="1">1st Year</option>
+                  <option value="2">2nd Year</option>
+                  <option value="3" selected>3rd Year</option>
+                  <option value="4">4th Year</option>
+                  <option value="5">5th Year</option>
+                </select>
+              </div>
+              <div class="appform-group">
+                <label class="appform-label">Current Term</label>
+                <select class="appform-select">
+                  <option value="">Select</option>
+                  <option value="1st">1st Semester</option>
+                  <option value="2nd" selected>2nd Semester</option>
+                  <option value="3rd">3rd Semester</option>
+                  <option value="summer">Summer</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="appform-group">
+              <label class="appform-label">Current Report Card</label>
+              <div class="appform-file-box">
+                <span class="appform-file-text">File Upload</span>
+                <input type="file" accept=".pdf,.png,.jpg,.jpeg">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-actions">
+          <button type="button" class="appform-btn-next" onclick="goToStep(3)">
+            Next Step
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Review Information -->
+      <div class="appform-step" id="step3">
+        <div class="appform-section">
+          <div class="appform-section-title">Review Information</div>
+          
+          <div class="appform-card">
+            <div class="appform-review-section">
+              <div class="appform-review-title">Renewal Information</div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Current Scholarship</span>
+                <span class="appform-review-value">Teriary Scholarship Program</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Current Academic</span>
+                <span class="appform-review-value">2025 - 2026</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Renewing For</span>
+                <span class="appform-review-value">2026 - 2027</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Year Level (This Academic Year)</span>
+                <span class="appform-review-value">4th</span>
+              </div>
+            </div>
+
+            <div class="appform-review-section">
+              <div class="appform-review-title">Current School Information</div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">School Name</span>
+                <span class="appform-review-value">FEU Manila</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Program</span>
+                <span class="appform-review-value">BSIT</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Current Year Level</span>
+                <span class="appform-review-value">3rd</span>
+              </div>
+              <div class="appform-review-row">
+                <span class="appform-review-label">Current Term</span>
+                <span class="appform-review-value">2nd</span>
+              </div>
+            </div>
+
+            <div class="appform-review-section">
+              <div class="appform-review-title">Supporting Documents</div>
+              <div class="appform-doc-check">
+                <span class="appform-doc-name">COR (This Academic Year)</span>
+                <svg class="appform-check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <div class="appform-doc-check">
+                <span class="appform-doc-name">Current Term Report Card</span>
+                <svg class="appform-check-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-actions">
+          <button type="button" class="appform-btn-next appform-btn-submit" onclick="submitForm()">
+            Submit Application
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="js/navigation.js"></script>
+  <script>
+    function goToStep(step) {
+      // Hide all steps
+      document.querySelectorAll('.appform-step').forEach(el => el.classList.remove('active'));
+      // Show target step
+      document.getElementById('step' + step).classList.add('active');
+      
+      // Update progress bar
+      for (let i = 1; i <= 3; i++) {
+        const prog = document.getElementById('prog' + i);
+        prog.classList.remove('active', 'completed');
+        if (i < step) prog.classList.add('completed');
+        if (i === step) prog.classList.add('active');
+      }
+      
+      window.scrollTo(0, 0);
+    }
+
+    function submitForm() {
+      alert('Application submitted successfully!');
+      window.location.href = 'application.html';
+    }
+  </script>
+</body>
+</html>

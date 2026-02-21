@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tertiary Scholarship Application - iSKKOLAR</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    .app {
+      min-height: 100vh;
+      background: #f8f9ff;
+    }
+
+    .appform-header {
+      background: #fff;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 2px solid #e8ebff;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .appform-back {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #f3f0ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5b5f97;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .appform-back:hover {
+      background: #e8ebff;
+    }
+
+    .appform-back svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .appform-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #5b5f97;
+      margin: 0;
+    }
+
+    .scholarship-type-banner {
+      background: linear-gradient(135deg, #5b5f97, #8b5cf6);
+      color: #fff;
+      padding: 16px 20px;
+      text-align: center;
+    }
+
+    .scholarship-type-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      margin-bottom: 4px;
+    }
+
+    .scholarship-type-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .appform-progress-wrap {
+      padding: 20px;
+      background: #fff;
+      border-bottom: 1px solid #e8ebff;
+    }
+
+    .appform-progress {
+      display: flex;
+      gap: 8px;
+      height: 8px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .appform-progress-seg {
+      flex: 1;
+      background: #e0e0e0;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .appform-progress-seg.active {
+      background: linear-gradient(90deg, #5b5f97, #8b5cf6);
+    }
+
+    .appform-progress-seg.completed {
+      background: #22c55e;
+    }
+
+    .appform-step-labels {
+      display: flex;
+      justify-content: space-between;
+      max-width: 600px;
+      margin: 12px auto 0;
+    }
+
+    .appform-step-label {
+      flex: 1;
+      text-align: center;
+      font-size: 11px;
+      color: #888;
+      transition: color 0.3s;
+    }
+
+    .appform-step-label.active,
+    .appform-step-label.completed {
+      color: #5b5f97;
+      font-weight: 600;
+    }
+
+    .appform-section {
+      padding: 24px 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .appform-section-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #5b5f97;
+      margin-bottom: 20px;
+      padding-left: 12px;
+      border-left: 3px solid #5b5f97;
+    }
+
+    .appform-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+
+    .appform-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .appform-row-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .appform-group {
+      margin-bottom: 20px;
+    }
+
+    .appform-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .appform-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #5b5f97;
+      margin-bottom: 8px;
+    }
+
+    .appform-label .required {
+      color: #ef4444;
+    }
+
+    .appform-input,
+    .appform-select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: #fafafa;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .appform-input:focus,
+    .appform-select:focus {
+      outline: none;
+      border-color: #8b5cf6;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    }
+
+    .appform-select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%235b5f97'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      padding-right: 40px;
+      background-color: #fafafa;
+    }
+
+    .appform-file-box {
+      border: 2px dashed #d0d0d0;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .appform-file-box:hover {
+      border-color: #8b5cf6;
+      background: #f8f5ff;
+    }
+
+    .appform-file-box svg {
+      width: 32px;
+      height: 32px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+
+    .appform-file-text {
+      font-size: 13px;
+      color: #666;
+      margin: 0 0 4px 0;
+    }
+
+    .appform-file-hint {
+      font-size: 11px;
+      color: #aaa;
+      margin: 0;
+    }
+
+    .appform-file-box input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .review-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid #e8ebff;
+    }
+
+    .review-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #5b5f97;
+      margin: 0 0 16px 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e8ebff;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .review-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .review-item.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .review-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .review-value {
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .declaration-box {
+      background: #f8f9ff;
+      border: 1px solid #e8ebff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .declaration-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #5b5f97;
+      margin: 0 0 12px 0;
+    }
+
+    .declaration-text {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .agreement-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e8ebff;
+    }
+
+    .agreement-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .agreement-row label {
+      font-size: 13px;
+      color: #555;
+      cursor: pointer;
+      line-height: 1.5;
+    }
+
+    .appform-step {
+      display: none;
+    }
+
+    .appform-step.active {
+      display: block;
+    }
+
+    .appform-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .appform-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .appform-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .appform-btn-back {
+      background: #fff;
+      color: #5b5f97;
+      border: 1px solid #e0e0e0;
+    }
+
+    .appform-btn-back:hover {
+      background: #f8f9ff;
+      border-color: #5b5f97;
+    }
+
+    .appform-btn-next {
+      background: linear-gradient(135deg, #5b5f97, #8b5cf6);
+      color: #fff;
+    }
+
+    .appform-btn-next:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(91, 95, 151, 0.4);
+    }
+
+    .appform-btn-submit {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #fff;
+    }
+
+    .appform-btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+    }
+
+    /* AI Modal */
+    .ai-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .ai-modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .ai-modal {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+
+    .ai-scanner {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 24px;
+    }
+
+    .ai-doc-bg {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #f0f0ff, #e8ebff);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+      animation: scanMove 2s infinite;
+    }
+
+    @keyframes scanMove {
+      0%, 100% { top: 10%; }
+      50% { top: 90%; }
+    }
+
+    .ai-corners {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 3px solid transparent;
+      border-top-color: #5b5f97;
+      border-left-color: #5b5f97;
+      border-radius: 12px;
+    }
+
+    .ai-corners-bot {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 3px solid transparent;
+      border-bottom-color: #8b5cf6;
+      border-right-color: #8b5cf6;
+      border-radius: 12px;
+    }
+
+    .ai-modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #5b5f97;
+      margin: 0 0 8px 0;
+    }
+
+    .ai-modal-subtitle {
+      font-size: 14px;
+      color: #888;
+      margin: 0 0 24px 0;
+    }
+
+    .ai-steps {
+      text-align: left;
+    }
+
+    .ai-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f9ff;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+
+    .ai-step.active {
+      opacity: 1;
+      background: #f0f0ff;
+    }
+
+    .ai-step.completed {
+      opacity: 1;
+      background: #dcfce7;
+    }
+
+    .ai-step-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: #e8ebff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5b5f97;
+    }
+
+    .ai-step.completed .ai-step-icon {
+      background: #22c55e;
+      color: #fff;
+    }
+
+    .ai-step-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .ai-step-info {
+      flex: 1;
+    }
+
+    .ai-step-name {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .ai-step-desc {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .ai-step-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e0e0e0;
+      border-top-color: #8b5cf6;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      opacity: 0;
+    }
+
+    .ai-step.active .ai-step-spinner {
+      opacity: 1;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .ai-result {
+      display: none;
+    }
+
+    .ai-result.active {
+      display: block;
+    }
+
+    .ai-result-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: #fff;
+    }
+
+    .ai-result-icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .ai-result-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #22c55e;
+      margin: 0 0 8px 0;
+    }
+
+    .ai-result-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin: 0 0 20px 0;
+    }
+
+    .ai-checks {
+      margin-bottom: 20px;
+    }
+
+    .ai-check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 6px;
+    }
+
+    .ai-check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #dcfce7;
+      color: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .ai-check-icon svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .ai-check-text {
+      font-size: 12px;
+      color: #555;
+    }
+
+    .ai-done-btn {
+      width: 100%;
+      padding: 14px 24px;
+      background: linear-gradient(135deg, #5b5f97, #8b5cf6);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .ai-done-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(91, 95, 151, 0.4);
+    }
+
+    .ai-done-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .ai-processing.hidden {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .appform-row-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .appform-step-labels {
+        display: none;
+      }
+
+      .appform-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .appform-btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="appform-header">
+      <a href="index.html" class="appform-back">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </a>
+      <h1 class="appform-title">Scholarship Application</h1>
+    </header>
+
+    <!-- Scholarship Type Banner -->
+    <div class="scholarship-type-banner">
+      <p class="scholarship-type-label">You are applying for</p>
+      <h2 class="scholarship-type-name">Tertiary Scholarship Program</h2>
+    </div>
+
+    <div class="appform-progress-wrap">
+      <div class="appform-progress">
+        <div class="appform-progress-seg active" id="prog1"></div>
+        <div class="appform-progress-seg" id="prog2"></div>
+        <div class="appform-progress-seg" id="prog3"></div>
+        <div class="appform-progress-seg" id="prog4"></div>
+        <div class="appform-progress-seg" id="prog5"></div>
+      </div>
+      <div class="appform-step-labels">
+        <span class="appform-step-label active" id="label1">Personal</span>
+        <span class="appform-step-label" id="label2">Contact</span>
+        <span class="appform-step-label" id="label3">Education</span>
+        <span class="appform-step-label" id="label4">Socio-Economic</span>
+        <span class="appform-step-label" id="label5">Review</span>
+      </div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="appform-step active" id="step1">
+      <div class="appform-section">
+        <div class="appform-section-title">Personal Information</div>
+        <div class="appform-card">
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">First Name <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="firstName" placeholder="Enter first name">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Middle Name</label>
+              <input type="text" class="appform-input" id="middleName" placeholder="Enter middle name">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Last Name <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="lastName" placeholder="Enter last name">
+            </div>
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">Suffix</label>
+              <input type="text" class="appform-input" id="suffix" placeholder="Jr., Sr., III">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Date of Birth <span class="required">*</span></label>
+              <input type="date" class="appform-input" id="dob">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Gender <span class="required">*</span></label>
+              <select class="appform-select" id="gender">
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">Citizenship <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="citizenship" placeholder="e.g., Filipino">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Civil Status <span class="required">*</span></label>
+              <select class="appform-select" id="civilStatus">
+                <option value="">Select</option>
+                <option value="single">Single</option>
+                <option value="married">Married</option>
+                <option value="widowed">Widowed</option>
+                <option value="separated">Separated</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appform-actions">
+        <button type="button" class="appform-btn appform-btn-next" onclick="goToStep(2)">
+          Next Step
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="appform-step" id="step2">
+      <div class="appform-section">
+        <div class="appform-section-title">Contact Information</div>
+        <div class="appform-card">
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">Email Address <span class="required">*</span></label>
+              <input type="email" class="appform-input" id="email" placeholder="Enter email">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Mobile Number <span class="required">*</span></label>
+              <input type="tel" class="appform-input" id="mobile" placeholder="09XX XXX XXXX">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Facebook <span class="required">*</span></label>
+              <input type="tel" class="appform-input" id="facebook" placeholder="user.name.92123">
+            </div>
+          </div>
+          <div class="appform-row appform-row-3">
+            <div class="appform-group">
+              <label class="appform-label">Country</label>
+              <input type="text" class="appform-input" id="country" value="Philippines" readonly>
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Province <span class="required">*</span></label>
+              <select class="appform-select" id="province">
+                <option value="">Select province</option>
+                <option value="ncr">NCR</option>
+                <option value="cavite">Cavite</option>
+                <option value="laguna">Laguna</option>
+                <option value="batangas">Batangas</option>
+                <option value="rizal">Rizal</option>
+                <option value="bulacan">Bulacan</option>
+              </select>
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">City/Municipality <span class="required">*</span></label>
+              <select class="appform-select" id="city">
+                <option value="">Select city</option>
+                <option value="manila">Manila</option>
+                <option value="quezon">Quezon City</option>
+                <option value="makati">Makati</option>
+                <option value="pasig">Pasig</option>
+                <option value="navotas">Navotas</option>
+              </select>
+            </div>
+          </div>
+          <div class="appform-group">
+            <label class="appform-label">Street Address <span class="required">*</span></label>
+            <input type="text" class="appform-input" id="address1" placeholder="House/Unit No., Building, Street">
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">Barangay <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="address2" placeholder="Enter barangay">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Zip Code <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="zipCode" placeholder="Enter zip code">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appform-actions">
+        <button type="button" class="appform-btn appform-btn-back" onclick="goToStep(1)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
+          </svg>
+          Back
+        </button>
+        <button type="button" class="appform-btn appform-btn-next" onclick="goToStep(3)">
+          Next Step
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="appform-step" id="step3">
+      <div class="appform-section">
+        <div class="appform-section-title">Previous School Information (High School/SHS)</div>
+        <div class="appform-card">
+          <div class="appform-row appform-row-3">
+            <div class="appform-group">
+              <label class="appform-label">High School/SHS Name <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="prevSchool" placeholder="Enter high school/SHS name">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Strand/Track</label>
+              <select class="appform-select" id="shsStrand">
+                <option value="">Select strand</option>
+                <option value="stem">STEM</option>
+                <option value="abm">ABM</option>
+                <option value="humss">HUMSS</option>
+                <option value="gas">GAS</option>
+                <option value="tvl">TVL</option>
+                <option value="sports">Sports</option>
+                <option value="arts">Arts & Design</option>
+                <option value="na">N/A (Old Curriculum)</option>
+              </select>
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Year Graduated <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="yearGraduated" placeholder="e.g., 2024">
+            </div>
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">General Weighted Average (GWA) <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="prevGwa" placeholder="e.g., 92.5 or 1.5">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Upload Grades/Report Card <span class="required">*</span></label>
+              <div class="appform-file-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <span>Click to upload or drag and drop</span>
+                <small>PDF, JPG, PNG (Max 5MB)</small>
+                <input type="file" class="appform-file" id="prevGradesFile" accept=".pdf,.jpg,.jpeg,.png">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-section-title">Current College/University Information</div>
+        <div class="appform-card">
+          <div class="appform-row appform-row-3">
+            <div class="appform-group">
+              <label class="appform-label">Educational Level <span class="required">*</span></label>
+              <select class="appform-select" id="educationalLevel">
+                <option value="">Select</option>
+                <option value="college">College</option>
+                <option value="graduate">Graduate School</option>
+              </select>
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Year Level <span class="required">*</span></label>
+              <select class="appform-select" id="yearLevel">
+                <option value="">Select</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="5th Year">5th Year</option>
+              </select>
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Semester</label>
+              <select class="appform-select" id="semester">
+                <option value="">Select</option>
+                <option value="1st Semester">1st Semester</option>
+                <option value="2nd Semester">2nd Semester</option>
+                <option value="Summer">Summer</option>
+              </select>
+            </div>
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">School/University Name <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="school" placeholder="Enter college/university name">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Course/Program <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="course" placeholder="e.g., BS Computer Science">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appform-actions">
+        <button type="button" class="appform-btn appform-btn-back" onclick="goToStep(2)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
+          </svg>
+          Back
+        </button>
+        <button type="button" class="appform-btn appform-btn-next" onclick="goToStep(4)">
+          Next Step
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="appform-step" id="step4">
+      <div class="appform-section">
+        <div class="appform-section-title">Father's Information</div>
+        <div class="appform-card">
+          <div class="appform-row appform-row-3">
+            <div class="appform-group">
+              <label class="appform-label">Full Name <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="fatherName" placeholder="Father's full name">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Occupation</label>
+              <input type="text" class="appform-input" id="fatherOccupation" placeholder="Enter occupation">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Employment Status <span class="required">*</span></label>
+              <select class="appform-select" id="fatherEmployment">
+                <option value="">Select</option>
+                <option value="employed">Employed</option>
+                <option value="self-employed">Self-Employed</option>
+                <option value="unemployed">Unemployed</option>
+                <option value="retired">Retired</option>
+                <option value="deceased">Deceased</option>
+              </select>
+            </div>
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">Monthly Income</label>
+              <input type="text" class="appform-input" id="fatherIncome" placeholder="e.g., ₱15,000">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Proof of Income</label>
+              <div class="appform-file-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <p class="appform-file-text">Click to upload</p>
+                <p class="appform-file-hint">Payslip, ITR, or Barangay Cert</p>
+                <input type="file" id="fatherProof" accept=".pdf,.jpg,.jpeg,.png">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="appform-section-title" style="margin-top: 24px;">Mother's Information</div>
+        <div class="appform-card">
+          <div class="appform-row appform-row-3">
+            <div class="appform-group">
+              <label class="appform-label">Full Name <span class="required">*</span></label>
+              <input type="text" class="appform-input" id="motherName" placeholder="Mother's full name">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Occupation</label>
+              <input type="text" class="appform-input" id="motherOccupation" placeholder="Enter occupation">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Employment Status <span class="required">*</span></label>
+              <select class="appform-select" id="motherEmployment">
+                <option value="">Select</option>
+                <option value="employed">Employed</option>
+                <option value="self-employed">Self-Employed</option>
+                <option value="unemployed">Unemployed</option>
+                <option value="retired">Retired</option>
+                <option value="deceased">Deceased</option>
+              </select>
+            </div>
+          </div>
+          <div class="appform-row">
+            <div class="appform-group">
+              <label class="appform-label">Monthly Income</label>
+              <input type="text" class="appform-input" id="motherIncome" placeholder="e.g., ₱12,000">
+            </div>
+            <div class="appform-group">
+              <label class="appform-label">Proof of Income</label>
+              <div class="appform-file-box">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+                <p class="appform-file-text">Click to upload</p>
+                <p class="appform-file-hint">Payslip, ITR, or Barangay Cert</p>
+                <input type="file" id="motherProof" accept=".pdf,.jpg,.jpeg,.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="appform-actions">
+        <button type="button" class="appform-btn appform-btn-back" onclick="goToStep(3)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
+          </svg>
+          Back
+        </button>
+        <button type="button" class="appform-btn appform-btn-next" onclick="goToStep(5)">
+          Next Step
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="appform-step" id="step5">
+      <div class="appform-section">
+        <div class="appform-section-title">Review Your Application</div>
+
+        <div class="review-card">
+          <h4 class="review-title">Personal Information</h4>
+          <div class="review-grid">
+            <div class="review-item"><span class="review-label">Full Name</span><span class="review-value" id="review-name">-</span></div>
+            <div class="review-item"><span class="review-label">Date of Birth</span><span class="review-value" id="review-dob">-</span></div>
+            <div class="review-item"><span class="review-label">Gender</span><span class="review-value" id="review-gender">-</span></div>
+            <div class="review-item"><span class="review-label">Civil Status</span><span class="review-value" id="review-civil">-</span></div>
+            <div class="review-item"><span class="review-label">Citizenship</span><span class="review-value" id="review-citizenship">-</span></div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <h4 class="review-title">Contact Information</h4>
+          <div class="review-grid">
+            <div class="review-item"><span class="review-label">Email</span><span class="review-value" id="review-email">-</span></div>
+            <div class="review-item"><span class="review-label">Mobile</span><span class="review-value" id="review-mobile">-</span></div>
+            <div class="review-item full-width"><span class="review-label">Address</span><span class="review-value" id="review-address">-</span></div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <h4 class="review-title">Previous School (High School/SHS)</h4>
+          <div class="review-grid">
+            <div class="review-item"><span class="review-label">School Name</span><span class="review-value" id="review-prev-school">-</span></div>
+            <div class="review-item"><span class="review-label">Strand/Track</span><span class="review-value" id="review-strand">-</span></div>
+            <div class="review-item"><span class="review-label">Year Graduated</span><span class="review-value" id="review-year-graduated">-</span></div>
+            <div class="review-item"><span class="review-label">GWA</span><span class="review-value" id="review-prev-gwa">-</span></div>
+            <div class="review-item"><span class="review-label">Grades Uploaded</span><span class="review-value" id="review-grades-file">-</span></div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <h4 class="review-title">Current College/University</h4>
+          <div class="review-grid">
+            <div class="review-item"><span class="review-label">Scholarship</span><span class="review-value">Tertiary Scholarship Program</span></div>
+            <div class="review-item"><span class="review-label">Level</span><span class="review-value" id="review-level">-</span></div>
+            <div class="review-item"><span class="review-label">Year Level</span><span class="review-value" id="review-year">-</span></div>
+            <div class="review-item"><span class="review-label">Semester</span><span class="review-value" id="review-semester">-</span></div>
+            <div class="review-item"><span class="review-label">School/University</span><span class="review-value" id="review-school">-</span></div>
+            <div class="review-item"><span class="review-label">Course/Program</span><span class="review-value" id="review-course">-</span></div>
+          </div>
+        </div>
+
+        <div class="declaration-box">
+          <h4 class="declaration-title">Declaration and Agreement</h4>
+          <p class="declaration-text">I certify that all information is true and accurate. I understand false information may result in disqualification. I authorize KKFI to verify submitted information.</p>
+        </div>
+
+        <div class="agreement-row">
+          <input type="checkbox" id="agreeTerms">
+          <label for="agreeTerms">I agree to the terms and conditions stated above.</label>
+        </div>
+      </div>
+      <div class="appform-actions">
+        <button type="button" class="appform-btn appform-btn-back" onclick="goToStep(4)">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/>
+          </svg>
+          Back
+        </button>
+        <button type="button" class="appform-btn appform-btn-submit" onclick="submitApplication()">
+          Submit Application
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- AI Modal -->
+    <div class="ai-modal-overlay" id="ai-overlay">
+      <div class="ai-modal">
+        <div id="ai-processing">
+          <div class="ai-scanner">
+            <div class="ai-doc-bg"><div class="ai-scan-line"></div></div>
+            <div class="ai-corners"></div>
+            <div class="ai-corners-bot"></div>
+          </div>
+          <h2 class="ai-modal-title">AI Document Verifier</h2>
+          <p class="ai-modal-subtitle">Verifying your application...</p>
+          <div class="ai-steps">
+            <div class="ai-step" id="ai-step1">
+              <div class="ai-step-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg></div>
+              <div class="ai-step-info"><span class="ai-step-name">Processing Documents</span><span class="ai-step-desc">Uploading grades and files...</span></div>
+              <div class="ai-step-spinner"></div>
+            </div>
+            <div class="ai-step" id="ai-step2">
+              <div class="ai-step-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+              <div class="ai-step-info"><span class="ai-step-name">Verifying Grades</span><span class="ai-step-desc">Analyzing GWA and report card...</span></div>
+              <div class="ai-step-spinner"></div>
+            </div>
+            <div class="ai-step" id="ai-step3">
+              <div class="ai-step-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+              <div class="ai-step-info"><span class="ai-step-name">Validating Information</span><span class="ai-step-desc">Cross-checking application data...</span></div>
+              <div class="ai-step-spinner"></div>
+            </div>
+            <div class="ai-step" id="ai-step4">
+              <div class="ai-step-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg></div>
+              <div class="ai-step-info"><span class="ai-step-name">Finalizing Submission</span><span class="ai-step-desc">Preparing application...</span></div>
+              <div class="ai-step-spinner"></div>
+            </div>
+          </div>
+        </div>
+        <div class="ai-result" id="ai-result">
+          <div class="ai-result-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div>
+          <h2 class="ai-result-title">Application Submitted!</h2>
+          <p class="ai-result-subtitle">All documents verified successfully</p>
+          <div class="ai-checks">
+            <div class="ai-check-item"><div class="ai-check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div><span class="ai-check-text">Personal Information - Complete</span></div>
+            <div class="ai-check-item"><div class="ai-check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div><span class="ai-check-text">Grades/Report Card - Verified</span></div>
+            <div class="ai-check-item"><div class="ai-check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div><span class="ai-check-text">GWA Requirement - Met</span></div>
+            <div class="ai-check-item"><div class="ai-check-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div><span class="ai-check-text">Application Data - Complete</span></div>
+          </div>
+          <button class="ai-done-btn" onclick="finishSubmission()">View Application Status<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+    const scholarshipType = 'tertiary';
+    const scholarshipName = 'Tertiary Scholarship Program';
+
+    function goToStep(step) {
+      currentStep = step;
+      for (let i = 1; i <= 5; i++) {
+        const seg = document.getElementById('prog' + i);
+        const label = document.getElementById('label' + i);
+        seg.classList.remove('active', 'completed');
+        label.classList.remove('active', 'completed');
+        if (i < step) { seg.classList.add('completed'); label.classList.add('completed'); }
+        else if (i === step) { seg.classList.add('active'); label.classList.add('active'); }
+      }
+      document.querySelectorAll('.appform-step').forEach(el => el.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (step === 5) updateReview();
+    }
+
+    function updateReview() {
+      const firstName = document.getElementById('firstName').value || '';
+      const middleName = document.getElementById('middleName').value || '';
+      const lastName = document.getElementById('lastName').value || '';
+      const fullName = [firstName, middleName, lastName].filter(n => n).join(' ') || '-';
+      document.getElementById('review-name').textContent = fullName;
+      document.getElementById('review-dob').textContent = document.getElementById('dob').value || '-';
+      document.getElementById('review-gender').textContent = document.getElementById('gender').value || '-';
+      document.getElementById('review-civil').textContent = document.getElementById('civilStatus').value || '-';
+      document.getElementById('review-citizenship').textContent = document.getElementById('citizenship').value || '-';
+      document.getElementById('review-email').textContent = document.getElementById('email').value || '-';
+      document.getElementById('review-mobile').textContent = document.getElementById('mobile').value || '-';
+      const address1 = document.getElementById('address1').value || '';
+      const address2 = document.getElementById('address2').value || '';
+      const city = document.getElementById('city').selectedOptions[0]?.text || '';
+      const province = document.getElementById('province').selectedOptions[0]?.text || '';
+      const zip = document.getElementById('zipCode').value || '';
+      const fullAddress = [address1, address2, city, province, zip].filter(a => a && a !== 'Select city' && a !== 'Select province').join(', ') || '-';
+      document.getElementById('review-address').textContent = fullAddress;
+      // Previous School (SHS) info
+      document.getElementById('review-prev-school').textContent = document.getElementById('prevSchool').value || '-';
+      document.getElementById('review-strand').textContent = document.getElementById('shsStrand').selectedOptions[0]?.text || '-';
+      document.getElementById('review-year-graduated').textContent = document.getElementById('yearGraduated').value || '-';
+      document.getElementById('review-prev-gwa').textContent = document.getElementById('prevGwa').value || '-';
+      const gradesFile = document.getElementById('prevGradesFile').files[0];
+      document.getElementById('review-grades-file').textContent = gradesFile ? gradesFile.name : 'Not uploaded';
+      // Current College info
+      document.getElementById('review-level').textContent = document.getElementById('educationalLevel').selectedOptions[0]?.text || '-';
+      document.getElementById('review-year').textContent = document.getElementById('yearLevel').selectedOptions[0]?.text || '-';
+      document.getElementById('review-semester').textContent = document.getElementById('semester').selectedOptions[0]?.text || '-';
+      document.getElementById('review-school').textContent = document.getElementById('school').value || '-';
+      document.getElementById('review-course').textContent = document.getElementById('course').value || '-';
+    }
+
+    function submitApplication() {
+      if (!document.getElementById('agreeTerms').checked) { alert('Please agree to the terms and conditions.'); return; }
+      document.getElementById('ai-overlay').classList.add('active');
+      runVerification();
+    }
+
+    function runVerification() {
+      const steps = [
+        { id: 'ai-step1', delay: 0, duration: 1800 },
+        { id: 'ai-step2', delay: 1800, duration: 1800 },
+        { id: 'ai-step3', delay: 3600, duration: 1800 },
+        { id: 'ai-step4', delay: 5400, duration: 1800 }
+      ];
+      steps.forEach(s => document.getElementById(s.id).classList.remove('active', 'completed'));
+      document.getElementById('ai-processing').classList.remove('hidden');
+      document.getElementById('ai-result').classList.remove('active');
+      steps.forEach((step) => {
+        setTimeout(() => {
+          document.getElementById(step.id).classList.add('active');
+          setTimeout(() => {
+            document.getElementById(step.id).classList.remove('active');
+            document.getElementById(step.id).classList.add('completed');
+          }, step.duration - 200);
+        }, step.delay);
+      });
+      setTimeout(() => {
+        document.getElementById('ai-processing').classList.add('hidden');
+        document.getElementById('ai-result').classList.add('active');
+      }, 7400);
+    }
+
+    function finishSubmission() {
+      const firstName = document.getElementById('firstName').value || 'Mario';
+      const lastName = document.getElementById('lastName').value || 'Veluz';
+      const applicationData = {
+        type: scholarshipType,
+        typeName: scholarshipName,
+        name: firstName + ' ' + lastName,
+        school: document.getElementById('school').value || 'Polytechnic University of the Philippines',
+        course: document.getElementById('course').value || 'BS Information Technology',
+        submittedAt: new Date().toISOString(),
+        status: 'submitted'
+      };
+      localStorage.setItem('kkfi_application', JSON.stringify(applicationData));
+      document.getElementById('ai-overlay').classList.remove('active');
+      setTimeout(() => { window.location.href = 'application.html'; }, 300);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Records - ISKKOLAR</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Top Header -->
+    <div id="header-placeholder"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Financial Summary Cards -->
+      <div class="financial-summary-grid">
+        <div class="financial-card total">
+          <div class="financial-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div class="financial-card-content">
+            <span class="financial-label">Total Received</span>
+            <span class="financial-amount">₱1,500</span>
+          </div>
+        </div>
+
+        <div class="financial-card yearly">
+          <div class="financial-card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div class="financial-card-content">
+            <span class="financial-label">This Year (2026)</span>
+            <span class="financial-amount">₱1,500</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction History -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Transaction History</h3>
+          <div class="filter-tabs">
+            <button class="filter-tab active">All</button>
+            <button class="filter-tab">2026</button>
+            <button class="filter-tab">2025</button>
+          </div>
+        </div>
+
+        <div class="transaction-list">
+          <!-- 2026 Section -->
+          <div class="year-section">
+            <h4 class="year-heading">2026</h4>
+            
+            <div class="transaction-item">
+              <div class="transaction-icon disbursement">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </div>
+              <div class="transaction-details">
+                <div class="transaction-main">
+                  <h4 class="transaction-title">Tuition Disbursement</h4>
+                  <span class="transaction-amount positive">+₱1,500</span>
+                </div>
+                <div class="transaction-meta">
+                  <span class="transaction-date">February 15, 2026</span>
+                  <span class="transaction-type">1st Semester AY 2025-2026</span>
+                </div>
+                <span class="status-badge active">Completed</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sample older transactions -->
+          <div class="year-section">
+            <h4 class="year-heading">2025</h4>
+            
+            <div class="transaction-item">
+              <div class="transaction-icon disbursement">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </div>
+              <div class="transaction-details">
+                <div class="transaction-main">
+                  <h4 class="transaction-title">Allowance Disbursement</h4>
+                  <span class="transaction-amount positive">+₱3,000</span>
+                </div>
+                <div class="transaction-meta">
+                  <span class="transaction-date">August 20, 2025</span>
+                  <span class="transaction-type">2nd Semester AY 2024-2025</span>
+                </div>
+                <span class="status-badge active">Completed</span>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-icon disbursement">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </div>
+              <div class="transaction-details">
+                <div class="transaction-main">
+                  <h4 class="transaction-title">Tuition Disbursement</h4>
+                  <span class="transaction-amount positive">+₱1,500</span>
+                </div>
+                <div class="transaction-meta">
+                  <span class="transaction-date">February 10, 2025</span>
+                  <span class="transaction-type">1st Semester AY 2024-2025</span>
+                </div>
+                <span class="status-badge active">Completed</span>
+              </div>
+            </div>
+
+            <div class="transaction-item">
+              <div class="transaction-icon disbursement">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+              </div>
+              <div class="transaction-details">
+                <div class="transaction-main">
+                  <h4 class="transaction-title">Allowance Disbursement</h4>
+                  <span class="transaction-amount positive">+₱3,000</span>
+                </div>
+                <div class="transaction-meta">
+                  <span class="transaction-date">January 15, 2025</span>
+                  <span class="transaction-type">1st Semester AY 2024-2025</span>
+                </div>
+                <span class="status-badge active">Completed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <div id="bottom-nav-placeholder"></div>
+  </div>
+
+  <script src="js/navigation.js"></script>
+  <script>
+    // Filter tabs functionality
+    document.querySelectorAll('.filter-tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
